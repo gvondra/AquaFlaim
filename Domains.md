@@ -12,6 +12,7 @@ This system is broken into a number of application and user domains. Here's a qu
 - Applications
   - Logging
   - Configuration
+  - Authorization
   - Notes
   - Document Generation
   - Document Storage
