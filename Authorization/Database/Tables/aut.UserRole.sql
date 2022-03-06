@@ -1,0 +1,8 @@
+﻿CREATE TABLE [aut].[UserRole]
+(
+	[UserId] UNIQUEIDENTIFIER NOT NULL,
+	[RoleId] INT NOT NULL,
+	[IsActive] BIT CONSTRAINT [DF_UserRole_IsActive] DEFAULT 1 NOT NULL,
+	[CreateTimestamp] DATETIME2(4) CONSTRAINT [DF_UserRole_CreateTimestamp] DEFAULT(SYSUTCDATETIME()) NOT NULL,
+	CONSTRAINT [PK_UserRole] PRIMARY KEY CLUSTERED ([UserId], [RoleId])
+)
