@@ -9,8 +9,6 @@ namespace AquaFlaim.Interface.Authorization
 {
     public sealed class RestUtil
     {
-        internal RestUtil() { }
-
         public async Task<T> Send<T>(IService service, IRequest request)
         {
             IResponse<T> response = await service.Send<T>(request);

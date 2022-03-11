@@ -1,7 +1,7 @@
 ﻿using AquaFlaim.CommonAPI;
 namespace AuthorizationAPI
 {
-    public class SettingsFactory
+    public class SettingsFactory : ISettingsFactory
     {
         public AquaFlaim.CommonCore.ISettings CreateCore(Settings settings)
         {
