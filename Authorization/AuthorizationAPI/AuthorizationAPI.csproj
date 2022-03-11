@@ -32,6 +32,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\CommonAPI\CommonAPI.csproj" />
+    <ProjectReference Include="..\..\Common\CommonCore\CommonCore.csproj" />
+    <ProjectReference Include="..\Authorization.Core\Authorization.Core.csproj" />
+    <ProjectReference Include="..\Authorization.Data\Authorization.Data.csproj" />
+    <ProjectReference Include="..\Authorization.Framework\Authorization.Framework.csproj" />
+    <ProjectReference Include="..\Interface.Authorization\Interface.Authorization.csproj" />
   </ItemGroup>
 
 </Project>

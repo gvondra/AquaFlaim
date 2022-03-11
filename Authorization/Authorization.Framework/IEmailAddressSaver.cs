@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace AquaFlaim.Authorization.Framework
 {
-    public interface IEmailAddress
+    public interface IEmailAddressSaver
     {
-        Guid EmailAddressId { get; }
-        string Address { get; }
-        DateTime CreateTimestamp { get; }
-
-        Task Create(ITransactionHandler transactionHandler);
+        Task Create(ISettings settings, IEmailAddress emailAddress);
     }
 }

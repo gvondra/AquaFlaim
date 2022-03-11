@@ -78,6 +78,8 @@
     <Build Include="Stored Procedures\aut.CreateEmailAddress.sql" />
     <Build Include="Tables\aut.Role.sql" />
     <Build Include="Tables\aut.UserRole.sql" />
+    <Build Include="Stored Procedures\aut.GetEmailAddress.sql" />
+    <Build Include="Stored Procedures\aut.GetEmailAddressByAddress.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SqlSchemaCompare.scmp" />

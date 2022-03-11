@@ -27,4 +27,8 @@
 	  <PackageReference Include="BrassLoon.DataClient" Version="1.0.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Authorization.Data.Framework\Authorization.Data.Framework.csproj" />
+	</ItemGroup>
+
 </Project>
