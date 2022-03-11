@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using AquaFlaim.Interface.Authorization;
+using AquaFlaim.User.Support.DependencyInjection;
+using Autofac;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -55,7 +58,7 @@ namespace AquaFlaim.User.Support
             httpListener.Start();
 
             // Creates the OAuth 2.0 authorization request.
-            string authorizationRequest = string.Format("{0}?response_type=code&scope=openid%20profile&redirect_uri={1}&client_id={2}&state={3}&code_challenge={4}&code_challenge_method={5}",
+            string authorizationRequest = string.Format("{0}?response_type=code&scope=openid%20email%20profile&redirect_uri={1}&client_id={2}&state={3}&code_challenge={4}&code_challenge_method={5}",
                 Properties.Settings.Default.GoogleAuthorizationEndpoint,
                 System.Uri.EscapeDataString(redirectURI),
                 Properties.Settings.Default.GoogleClientId,
@@ -112,10 +115,12 @@ namespace AquaFlaim.User.Support
             Output("Authorization code: " + code);
 
             // Starts the code exchange at the Token Endpoint.
-            PerformCodeExchange(code, code_verifier, redirectURI);
+            await PerformCodeExchange(code, code_verifier, redirectURI);
+            await GetAquaFlaimToken();
+            this.Close();
         }
 
-        private async void PerformCodeExchange(string code, string code_verifier, string redirectURI)
+        private async Task PerformCodeExchange(string code, string code_verifier, string redirectURI)
         {
             Output("Exchanging code for tokens...");
 
@@ -152,8 +157,10 @@ namespace AquaFlaim.User.Support
                     // converts to dictionary
                     Dictionary<string, string> tokenEndpointDecoded = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseText);
 
-                    string access_token = tokenEndpointDecoded["access_token"];
-                    UserinfoCall(access_token);
+                    AccessToken.GoogleToken = tokenEndpointDecoded;
+
+                    //string access_token = tokenEndpointDecoded["access_token"];
+                    //UserinfoCall(access_token);
                 }
             }
             catch (WebException ex)
@@ -176,26 +183,44 @@ namespace AquaFlaim.User.Support
             }
         }
 
-        private async void UserinfoCall(string access_token)
+        private async Task GetAquaFlaimToken()
         {
-            Output("Making API Call to Userinfo...");
-
-            // sends the request
-            HttpWebRequest userinfoRequest = (HttpWebRequest)WebRequest.Create(Properties.Settings.Default.GoogleUserInfoEndpoint);
-            userinfoRequest.Method = "GET";
-            userinfoRequest.Headers.Add(string.Format("Authorization: Bearer {0}", access_token));
-            userinfoRequest.ContentType = "application/x-www-form-urlencoded";
-            userinfoRequest.Accept = "Accept=text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
-
-            // gets the response
-            WebResponse userinfoResponse = await userinfoRequest.GetResponseAsync();
-            using (StreamReader userinfoResponseReader = new StreamReader(userinfoResponse.GetResponseStream()))
+            try
             {
-                // reads response body
-                string userinfoResponseText = await userinfoResponseReader.ReadToEndAsync();
-                Output(userinfoResponseText);
+                using (ILifetimeScope scope = ContainerFactory.Container.BeginLifetimeScope())
+                {
+                    ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
+                    ITokenService tokenService = scope.Resolve<ITokenService>();
+                    AccessToken.Token = await tokenService.Create(settingsFactory.CreateAuthorization(AccessToken.GetGoogleIdToken()));
+                    Output("Token received");
+                }
+            }
+            catch (Exception ex)
+            {
+                Output(ex.ToString());
             }
         }
+
+        //private async void UserinfoCall(string access_token)
+        //{
+        //    Output("Making API Call to Userinfo...");
+
+        //    // sends the request
+        //    HttpWebRequest userinfoRequest = (HttpWebRequest)WebRequest.Create(Properties.Settings.Default.GoogleUserInfoEndpoint);
+        //    userinfoRequest.Method = "GET";
+        //    userinfoRequest.Headers.Add(string.Format("Authorization: Bearer {0}", access_token));
+        //    userinfoRequest.ContentType = "application/x-www-form-urlencoded";
+        //    userinfoRequest.Accept = "Accept=text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
+
+        //    // gets the response
+        //    WebResponse userinfoResponse = await userinfoRequest.GetResponseAsync();
+        //    using (StreamReader userinfoResponseReader = new StreamReader(userinfoResponse.GetResponseStream()))
+        //    {
+        //        // reads response body
+        //        string userinfoResponseText = await userinfoResponseReader.ReadToEndAsync();
+        //        Output(userinfoResponseText);
+        //    }
+        //}
 
         private void Output(string output)
         {

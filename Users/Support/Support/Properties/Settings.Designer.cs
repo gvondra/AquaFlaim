@@ -67,5 +67,14 @@ namespace AquaFlaim.User.Support.Properties {
                 return ((string)(this["GoogleClientSecret"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:500")]
+        public string AuthorizationApiBaseAddress {
+            get {
+                return ((string)(this["AuthorizationApiBaseAddress"]));
+            }
+        }
     }
 }

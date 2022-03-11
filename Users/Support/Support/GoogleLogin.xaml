@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AquaFlaim.User.Support"
         mc:Ignorable="d"
-        Title="Aqua Flame: Google Login" Style="{StaticResource DefaultWindowStyle}" WindowState="Normal">
+        Title="Aqua Flame: Google Login" Style="{StaticResource DefaultWindowStyle}" WindowState="Normal" MaxWidth="550">
     <Grid>
         <Button x:Name="button" HorizontalAlignment="Left" Margin="18,22,0,0" VerticalAlignment="Top" Width="206" Height="46" Click="LoginButton_Click"
                 BorderThickness="0" Padding="0" Background="Transparent">
