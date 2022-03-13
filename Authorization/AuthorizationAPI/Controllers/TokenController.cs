@@ -100,7 +100,7 @@ namespace AuthorizationAPI.Controllers
         {
             IUser user;
             IEmailAddress emailAddress = null;
-            string subscriber = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            string subscriber = GetCurrentUserReferenceId();
             ISettings coreSettings = _settingsFactory.CreateCore(_settings.Value);
             user = await _userFactory.GetByReferenceId(coreSettings, subscriber);
             if (user == null)
@@ -113,17 +113,45 @@ namespace AuthorizationAPI.Controllers
                     await _emailAddressSaver.Create(coreSettings, emailAddress);
                 }
                 user = _userFactory.Create(subscriber, emailAddress);
-                user.Name = User.Claims.First(c => string.Equals(c.Type, ClaimTypes.Name, StringComparison.OrdinalIgnoreCase)).Value;
+                user.Name = GetUserNameClaim().Value;
                 //SetSuperUser(user);
                 await _userSaver.Create(coreSettings, user);
             }
             else
             {
-                user.Name = User.Claims.First(c => string.Equals(c.Type, ClaimTypes.Name, StringComparison.OrdinalIgnoreCase) || string.Equals(c.Type, ClaimTypes.Name, StringComparison.OrdinalIgnoreCase)).Value;
+                user.Name = GetUserNameClaim().Value;
                 //SetSuperUser(user);
                 await _userSaver.Update(coreSettings, user);
             }
             return user;
+        }
+
+        [NonAction]
+        private Claim GetUserNameClaim() => User.Claims.First(c => string.Equals(c.Type, "name", StringComparison.OrdinalIgnoreCase) || string.Equals(c.Type, ClaimTypes.Name, StringComparison.OrdinalIgnoreCase));
+
+        [NonAction]
+        private bool IsSuperUser(string email)
+        {
+            return (!string.IsNullOrEmpty(_settings.Value.SuperUser) 
+                && !string.IsNullOrEmpty(email) 
+                && string.Equals(email, _settings.Value.SuperUser, StringComparison.OrdinalIgnoreCase));
+        }
+
+        [NonAction]
+        private async Task<List<string>> GetUserRoles(ISettings settings, IUser user)
+        {
+            List<string> roles = (await user.GetRoles(settings)).Keys.ToList();
+            if (IsSuperUser((await user.GetEmailAddress(settings)).Address))
+            {
+                List<string> superUserRoles = new List<string>
+                {
+                    Constants.POLICY_ROLE_EDIT,
+                    Constants.POLICY_USER_EDIT,
+                    Constants.POLICY_USER_READ
+                };
+                roles = roles.Union(superUserRoles).ToList();
+            }
+            return roles;
         }
 
         //[NonAction]
@@ -142,6 +170,7 @@ namespace AuthorizationAPI.Controllers
         [NonAction]
         private async Task<string> CreateToken(IUser user)
         {
+            ISettings settings = _settingsFactory.CreateCore(_settings.Value);
             RsaSecurityKey securityKey = RsaSecurityKeySerializer.GetSecurityKey(_settings.Value.TknCsp, true);
             SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.RsaSha512);
             List<Claim> claims = new List<Claim>
@@ -152,10 +181,8 @@ namespace AuthorizationAPI.Controllers
             if (claim != null)
                 claims.Add(new Claim(JwtRegisteredClaimNames.Sub, claim.Value));
             claims.Add(new Claim(JwtRegisteredClaimNames.Email, (await user.GetEmailAddress(_settingsFactory.CreateCore(_settings.Value))).Address));
-            //if ((user.Roles & UserRole.SystemAdministrator) == UserRole.SystemAdministrator)
-            //    claims.Add(new Claim("role", "sysadmin"));
-            //if ((user.Roles & UserRole.AccountAdministrator) == UserRole.AccountAdministrator)
-            //    claims.Add(new Claim("role", "actadmin"));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Name, user.Name));
+            await AddRoleClaims(settings, claims, user);
             JwtSecurityToken token = new JwtSecurityToken(
                 _settings.Value.InternalIdIssuer,
                 _settings.Value.InternalIdIssuer,
@@ -164,6 +191,14 @@ namespace AuthorizationAPI.Controllers
                 signingCredentials: credentials
                 );
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private async Task AddRoleClaims(ISettings settings, List<Claim> claims, IUser user)
+        {
+            foreach (string role in await GetUserRoles(settings, user))
+            {
+                claims.Add(new Claim("role", role));
+            }
         }
 
         [NonAction]
