@@ -51,6 +51,22 @@ namespace AquaFlaim.Authorization.Data
             }
         }
 
+        public async Task AddRole(ISqlTransactionHandler transactionHandler, Guid userId, int roleId)
+        {
+            await _providerFactory.EstablishTransaction(transactionHandler);
+            using (DbCommand command = transactionHandler.Connection.CreateCommand())
+            {
+                command.CommandText = "[aut].[CreateUserRole]";
+                command.CommandType = CommandType.StoredProcedure;
+                command.Transaction = transactionHandler.Transaction.InnerTransaction;
+
+                DataUtil.AddParameter(_providerFactory, command.Parameters, "userId", DbType.Guid, userId);
+                DataUtil.AddParameter(_providerFactory, command.Parameters, "roleId", DbType.Int32, roleId);
+
+                await command.ExecuteNonQueryAsync();
+            }
+        }
+
         public async Task Update(ISqlTransactionHandler transactionHandler, UserData user)
         {
             if (user.Manager.GetState(user) == DataState.Updated)
@@ -72,6 +88,22 @@ namespace AquaFlaim.Authorization.Data
                     await command.ExecuteNonQueryAsync();
                     user.UpdateTimestamp = (DateTime)timestamp.Value;
                 }
+            }
+        }
+
+        public async Task RemoveRole(ISqlTransactionHandler transactionHandler, Guid userId, int roleId)
+        {
+            await _providerFactory.EstablishTransaction(transactionHandler);
+            using (DbCommand command = transactionHandler.Connection.CreateCommand())
+            {
+                command.CommandText = "[aut].[RemoveUserRole]";
+                command.CommandType = CommandType.StoredProcedure;
+                command.Transaction = transactionHandler.Transaction.InnerTransaction;
+
+                DataUtil.AddParameter(_providerFactory, command.Parameters, "userId", DbType.Guid, userId);
+                DataUtil.AddParameter(_providerFactory, command.Parameters, "roleId", DbType.Int32, roleId);
+
+                await command.ExecuteNonQueryAsync();
             }
         }
     }

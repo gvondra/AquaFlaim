@@ -80,6 +80,13 @@
     <Build Include="Tables\aut.UserRole.sql" />
     <Build Include="Stored Procedures\aut.GetEmailAddress.sql" />
     <Build Include="Stored Procedures\aut.GetEmailAddressByAddress.sql" />
+    <Build Include="Stored Procedures\aut.CreateRole.sql" />
+    <Build Include="Stored Procedures\aut.UpdateRole.sql" />
+    <Build Include="Stored Procedures\aut.GetRoleAll.sql" />
+    <Build Include="Stored Procedures\aut.GetRoleByUserId.sql" />
+    <Build Include="Stored Procedures\aut.GetRole.sql" />
+    <Build Include="Stored Procedures\aut.CreateUserRole.sql" />
+    <Build Include="Stored Procedures\aut.RemoveUserRole.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SqlSchemaCompare.scmp" />

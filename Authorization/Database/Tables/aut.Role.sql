@@ -7,3 +7,7 @@
 	[UpdateTimestamp] DATETIME2(4) CONSTRAINT [DF_Role_UpdateTimestamp] DEFAULT(SYSUTCDATETIME()) NOT NULL,
 	CONSTRAINT [PK_Role] PRIMARY KEY CLUSTERED ([RoleId])
 )
+
+GO
+
+CREATE UNIQUE INDEX [IX_Role_PolicyName] ON [aut].[Role] ([PolicyName])

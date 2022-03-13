@@ -12,5 +12,7 @@ namespace AquaFlaim.Authorization.Data.Framework
     {
         Task Create(ISqlTransactionHandler transactionHandler, UserData user);
         Task Update(ISqlTransactionHandler transactionHandler, UserData user);
+        Task AddRole(ISqlTransactionHandler transactionHandler, Guid userId, int roleId);
+        Task RemoveRole(ISqlTransactionHandler transactionHandler, Guid userId, int roleId);
     }
 }
