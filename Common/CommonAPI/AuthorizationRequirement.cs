@@ -16,11 +16,11 @@ namespace AquaFlaim.CommonAPI
             this.Roles = new string[] { };
         }
 
-        public AuthorizationRequirement(string policyName, string issuer, string role)
+        public AuthorizationRequirement(string policyName, string issuer, params string[] roles)
         {
             this.PolicyName = policyName;
             this.Issuer = issuer;
-            this.Roles = new string[] { role };
+            this.Roles = roles;
         }
 
         public string PolicyName { get; set; }
