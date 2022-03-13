@@ -11,5 +11,8 @@ namespace AquaFlaim.CommonAPI
         public const string AUTH_SCHEMA_EXTERNAL = "External";
         public const string AUTH_SCHEMA_AQUA_FLAIM = "AquaFlaim";
         public const string POLICY_TOKEN_CREATE = "TOKEN:CREATE";
+        public const string POLICY_USER_EDIT = "USER:EDIT";
+        public const string POLICY_USER_READ = "USER:READ";
+        public const string POLICY_ROLE_EDIT = "ROLE:EDIT";
     }
 }

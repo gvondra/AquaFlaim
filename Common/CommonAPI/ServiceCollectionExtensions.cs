@@ -37,7 +37,7 @@ namespace AquaFlaim.CommonAPI
             {
                 o.DefaultPolicy = new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
-                .AddAuthenticationSchemes(Constants.AUTH_SCHEMA_EXTERNAL, "AquaFlaim")
+                .AddAuthenticationSchemes(Constants.AUTH_SCHEMA_EXTERNAL, Constants.AUTH_SCHEMA_AQUA_FLAIM)
                 .Build();
                 o.AddPolicy(Constants.POLICY_TOKEN_CREATE,
                     configure =>
@@ -46,8 +46,22 @@ namespace AquaFlaim.CommonAPI
                         .AddAuthenticationSchemes(Constants.AUTH_SCHEMA_EXTERNAL)
                         .Build();
                     });
+                AddPolicy(o, Constants.POLICY_ROLE_EDIT, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"]);
+                AddPolicy(o, Constants.POLICY_USER_EDIT, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"]);
+                AddPolicy(o, Constants.POLICY_USER_READ, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"]);
             });
             return services;
+        }
+
+        private static void AddPolicy(AuthorizationOptions authorizationOptions, string policyName, string schema, string issuer)
+        {
+            authorizationOptions.AddPolicy(policyName,
+                    configure =>
+                    {
+                        configure.AddRequirements(new AuthorizationRequirement(policyName, issuer, policyName))
+                        .AddAuthenticationSchemes(schema)
+                        .Build();
+                    });
         }
     }
 }
