@@ -14,6 +14,8 @@ using AquaFlaim.CommonAPI;
 
 namespace AuthorizationAPI.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class UserController : AuthorizationControllerBase
     {
         private readonly IOptions<Settings> _settings;
@@ -47,14 +49,13 @@ namespace AuthorizationAPI.Controllers
                 ISettings settings = _settingsFactory.CreateCore(_settings.Value);
                 if (result == null && !string.IsNullOrEmpty(emailAddress))
                     innerUser = (await _userFactory.GetByEmailAddress(settings, emailAddress)).FirstOrDefault();
-                if (result == null && innerUser == null)
+                else if (result == null && innerUser == null)
                     innerUser = await _userFactory.GetByReferenceId(settings, GetCurrentUserReferenceId());
                 if (result == null && innerUser == null)
-                    result = NotFound();
+                    result = Ok(null);
                 if (result == null && innerUser != null)
                 {
-                    User user = _mapper.Map<User>(innerUser);
-                    user.Roles = await innerUser.GetRoles(settings);
+                    User user = await MapUser(settings, _mapper, innerUser);
                     result = Ok(user);
                 }
             }
@@ -84,8 +85,7 @@ namespace AuthorizationAPI.Controllers
                         result = NotFound();
                     if (result == null && innerUser != null)
                     {
-                        User user = _mapper.Map<User>(innerUser);
-                        user.Roles = await innerUser.GetRoles(settings);
+                        User user = await MapUser(settings, _mapper, innerUser);
                         result = Ok(user);
                     }
                 }
@@ -96,6 +96,15 @@ namespace AuthorizationAPI.Controllers
                 result = StatusCode(StatusCodes.Status500InternalServerError);
             }
             return result;
+        }
+
+        [NonAction]
+        private async Task<User> MapUser(ISettings settings, IMapper mapper, IUser innerUser)
+        {
+            User user = _mapper.Map<User>(innerUser);
+            user.EmailAddress = (await innerUser.GetEmailAddress(settings))?.Address;
+            user.Roles = await innerUser.GetRoles(settings);
+            return user;
         }
 
         [HttpPut("{id}")]

@@ -13,6 +13,8 @@ namespace AuthorizationAPI
             {
                 configExp.CreateMap<IRole, Role>();
                 configExp.CreateMap<Role, IRole>();
+                configExp.CreateMap<IUser, User>();
+                configExp.CreateMap<User, IUser>();
             });
         }
 
