@@ -36,13 +36,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AquaFlaim.Interface.Authorization, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\AquaFlaim.Interface.Authorization.1.0.0-alpha.3\lib\netstandard2.0\AquaFlaim.Interface.Authorization.dll</HintPath>
+      <HintPath>packages\AquaFlaim.Interface.Authorization.1.0.0-alpha.10\lib\netstandard2.0\AquaFlaim.Interface.Authorization.dll</HintPath>
     </Reference>
     <Reference Include="Autofac, Version=6.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>packages\Autofac.6.3.0\lib\netstandard2.0\Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="BrassLoon.RestClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\BrassLoon.RestClient.1.0.0\lib\netstandard2.0\BrassLoon.RestClient.dll</HintPath>
+    <Reference Include="BrassLoon.RestClient, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\BrassLoon.RestClient.1.1.0-alpha.1\lib\netstandard2.0\BrassLoon.RestClient.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -93,11 +93,21 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AccessToken.cs" />
+    <Compile Include="Authorization\Roles.xaml.cs">
+      <DependentUpon>Roles.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Authorization\ViewModel\RolesVM.cs" />
+    <Compile Include="Authorization\ViewModel\RoleValidator.cs" />
+    <Compile Include="Authorization\ViewModel\RoleVM.cs" />
     <Compile Include="DependencyInjection\ContainerFactory.cs" />
     <Compile Include="DependencyInjection\SupportModule.cs" />
     <Compile Include="Settings\AuthorizationSettings.cs" />
     <Compile Include="Settings\ISettingsFactory.cs" />
     <Compile Include="Settings\SettingsFactory.cs" />
+    <Page Include="Authorization\Roles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Control\ExceptionItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

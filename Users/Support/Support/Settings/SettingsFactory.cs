@@ -15,15 +15,13 @@ namespace AquaFlaim.User.Support
         {
             if (string.IsNullOrEmpty(AccessToken.Token))
                 throw new ArgumentNullException("Access Token");
-            return new AuthorizationSettings
-            {
-                BaseAddress = Properties.Settings.Default.AuthorizationApiBaseAddress,
-                Token = AccessToken.Token
-            };
+            return CreateAuthorization(AccessToken.Token);
         }
 
         public InterfaceAuthorization.ISettings CreateAuthorization(string token)
         {
+            if (string.IsNullOrEmpty(token))
+                throw new ArgumentNullException(nameof(token));
             return new AuthorizationSettings
             {
                 BaseAddress = Properties.Settings.Default.AuthorizationApiBaseAddress,

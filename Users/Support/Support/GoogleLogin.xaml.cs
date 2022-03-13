@@ -255,5 +255,14 @@ namespace AquaFlaim.User.Support
 
             return base64;
         }
+
+        public static void ShowLoginDialog(bool checkAccessToken = true)
+        {
+            if (!checkAccessToken || string.IsNullOrEmpty(AccessToken.Token))
+            {
+                GoogleLogin googleLogin = new GoogleLogin();
+                googleLogin.ShowDialog();
+            }
+        }
     }
 }

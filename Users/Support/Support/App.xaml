@@ -22,5 +22,8 @@
             <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}"/>
             <Setter Property="FontFamily" Value="{StaticResource DefaultFont}"/>
         </Style>
+        <Style x:Key="PageTitle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
     </Application.Resources>
 </Application>

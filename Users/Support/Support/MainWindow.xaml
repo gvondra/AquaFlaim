@@ -18,6 +18,10 @@
                 <MenuItem Header="_Home" Command="NavigationCommands.GoToPage" CommandParameter="NavigationPage/Home.xaml"/>
                 <MenuItem Header="_Google Login" Click="GoogleLoginMenuItem_Click"/>
                 <Separator/>
+                <MenuItem Header="Authorization">
+                    <MenuItem Header="Roles" Command="NavigationCommands.GoToPage" CommandParameter="Authorization/Roles.xaml"/>
+                </MenuItem>
+                <Separator/>
                 <MenuItem Command="ApplicationCommands.Close"/>
             </MenuItem>
         </Menu>
