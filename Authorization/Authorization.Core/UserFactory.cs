@@ -15,17 +15,20 @@ namespace AquaFlaim.Authorization.Core
         private readonly IUserDataFactory _dataFactory;
         private readonly IUserDataSaver _dataSaver;
         private readonly IEmailAddressFactory _emailAddressFactory;
+        private readonly IRoleDataFactory _roleDataFactory;
 
         public UserFactory(IUserDataFactory dataFactory,
             IUserDataSaver dataSaver,
-            IEmailAddressFactory emailAddressFactory)
+            IEmailAddressFactory emailAddressFactory,
+            IRoleDataFactory roleDataFactory)
         {
             _dataFactory = dataFactory;
             _dataSaver = dataSaver;
             _emailAddressFactory = emailAddressFactory;
+            _roleDataFactory = roleDataFactory;
         }
 
-        private User Create(UserData data) => new User(data, _dataSaver, _emailAddressFactory);
+        private User Create(UserData data) => new User(data, _roleDataFactory, _dataSaver, _emailAddressFactory);
 
         public IUser Create(string referenceId, IEmailAddress emailAddress)
         {

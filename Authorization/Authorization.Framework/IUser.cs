@@ -17,6 +17,10 @@ namespace AquaFlaim.Authorization.Framework
 
         Task<IEmailAddress> GetEmailAddress(ISettings settings);
         void SetEmailAddress(IEmailAddress emailAddress);
+        /// <returns>Dictionary of role names keyed on PolicyName</returns>
+        Task<Dictionary<string, string>> GetRoles(ISettings settings);
+        Task AddRole(ISettings settings, string policyName);
+        Task RemoveRole(ISettings settings, string policyName);
         Task Create(ITransactionHandler transactionHandler);
         Task Update(ITransactionHandler transactionHandler);
     }

@@ -9,6 +9,8 @@ namespace AquaFlaim.Authorization.Core
             base.Load(builder);
             builder.RegisterType<EmailAddressFactory>().As<IEmailAddressFactory>();
             builder.RegisterType<EmailAddressSaver>().As<IEmailAddressSaver>();
+            builder.RegisterType<RoleFactory>().As<IRoleFactory>();
+            builder.RegisterType<RoleSaver>().As<IRoleSaver>();
             builder.RegisterType<UserFactory>().As<IUserFactory>();
             builder.RegisterType<UserSaver>().As<IUserSaver>();
         }
