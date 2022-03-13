@@ -19,6 +19,7 @@
                 <MenuItem Header="_Google Login" Click="GoogleLoginMenuItem_Click"/>
                 <Separator/>
                 <MenuItem Header="Authorization">
+                    <MenuItem Header="Find User" Command="NavigationCommands.GoToPage" CommandParameter="Authorization/User.xaml"/>
                     <MenuItem Header="Roles" Command="NavigationCommands.GoToPage" CommandParameter="Authorization/Roles.xaml"/>
                 </MenuItem>
                 <Separator/>

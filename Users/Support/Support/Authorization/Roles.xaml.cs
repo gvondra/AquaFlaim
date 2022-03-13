@@ -139,7 +139,7 @@ namespace AquaFlaim.User.Support.Authorization
                 Role role = await task;
                 ((RoleVM)state).RoleId = role.RoleId;
                 ((RoleVM)state).IsNew = false;
-                MessageBox.Show("Save complete", "Save", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(Window.GetWindow(this), "Save complete", "Save", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {

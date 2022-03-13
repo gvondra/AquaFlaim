@@ -15,10 +15,12 @@ namespace AquaFlaim.User.Support.Authorization.ViewModel
         private readonly ConcurrentDictionary<string, string> _errors = new ConcurrentDictionary<string, string>();
         private readonly Role _innerRole;
         public bool _isNew = false;
+        private readonly List<object> _validator = new List<object>();
 
         public RoleVM(Role innerRole)
         {
             _innerRole = innerRole;
+            _validator.Add(new RoleValidator(this));
         }
 
         public RoleVM() : this(new Role()) {}
