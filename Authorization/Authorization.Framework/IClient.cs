@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AquaFlaim.CommonCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,14 @@ namespace AquaFlaim.Authorization.Framework
 {
     public interface IClient
     {
-        Guid ClientId { get; set; }
+        Guid ClientId { get; }
         string Name { get; set; }
-        DateTime CreateTimestamp { get; set; }
-        DateTime UpdateTimestamp { get; set; }
+        DateTime CreateTimestamp { get; }
+        DateTime UpdateTimestamp { get; }
+
+        Task Create(ITransactionHandler transactionHandler);
+        Task Update(ITransactionHandler transactionHandler);
+        void SetSecret(string secret);
+        Task<bool> VerifySecret(ISettings settings, string secret);
     }
 }

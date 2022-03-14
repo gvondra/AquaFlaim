@@ -15,6 +15,8 @@ namespace AquaFlaim.Authorization.Data
         {
             base.Load(builder);
             builder.Register<IDbProviderFactory>((context) => new BrassLoon.DataClient.SqlClientProviderFactory());
+            builder.RegisterType<ClientDataFactory>().As<IClientDataFactory>();
+            builder.RegisterType<ClientDataSaver>().As<IClientDataSaver>();
             builder.RegisterType<EmailAddressDataFactory>().As<IEmailAddressDataFactory>();
             builder.RegisterType<EmailAddressDataSaver>().As<IEmailAddressDataSaver>();
             builder.RegisterType<RoleDataFactory>().As<IRoleDataFactory>();

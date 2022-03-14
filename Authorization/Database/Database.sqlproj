@@ -87,6 +87,14 @@
     <Build Include="Stored Procedures\aut.GetRole.sql" />
     <Build Include="Stored Procedures\aut.CreateUserRole.sql" />
     <Build Include="Stored Procedures\aut.RemoveUserRole.sql" />
+    <Build Include="Stored Procedures\aut.CreateClient.sql" />
+    <Build Include="Stored Procedures\aut.UpdateClient.sql" />
+    <Build Include="Stored Procedures\aut.GetClientAll.sql" />
+    <Build Include="Stored Procedures\aut.GetClient.sql" />
+    <Build Include="Stored Procedures\aut.CreateClientCredential.sql" />
+    <Build Include="Stored Procedures\aut.UpdateClientCredentialDeactivate.sql" />
+    <Build Include="Stored Procedures\aut.GetClientCredentialByClientId.sql" />
+    <Build Include="Tables\aut.ClientRole.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SqlSchemaCompare.scmp" />

@@ -1,4 +1,5 @@
 ﻿using AquaFlaim.Authorization.Framework;
+using AquaFlaim.Interface.Authorization.Models;
 using AquaFlaim.CommonAPI;
 using AquaFlaim.CommonCore;
 using Microsoft.AspNetCore.Authorization;
@@ -22,13 +23,16 @@ namespace AuthorizationAPI.Controllers
     {
         private readonly IOptions<Settings> _settings;
         private readonly ISettingsFactory _settingsFactory;
-        public readonly IUserFactory _userFactory;
-        public readonly IUserSaver _userSaver;
-        public readonly IEmailAddressFactory _emailAddressFactory;
-        public readonly IEmailAddressSaver _emailAddressSaver;
+        private readonly IClientFactory _clientFactory;
+        private readonly IUserFactory _userFactory;
+        private readonly IUserSaver _userSaver;
+        private readonly IEmailAddressFactory _emailAddressFactory;
+        private readonly IEmailAddressSaver _emailAddressSaver;
 
         public TokenController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
+            IClientFactory clientFactory,
+            IClientSecretProcessor clientSecretProcessor,
             IUserFactory userFactory,
             IUserSaver userSaver,
             IEmailAddressFactory emailAddressFactory,
@@ -36,6 +40,7 @@ namespace AuthorizationAPI.Controllers
         {
             _settings = settings;
             _settingsFactory = settingsFactory;
+            _clientFactory = clientFactory;
             _userFactory = userFactory;
             _userSaver = userSaver;
             _emailAddressFactory = emailAddressFactory;
@@ -57,7 +62,7 @@ namespace AuthorizationAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
-        /*
+        
         [HttpPost("ClientCredential")]
         public async Task<IActionResult> CreateClientCredential([FromBody] ClientCredential clientCredential)
         {
@@ -78,7 +83,7 @@ namespace AuthorizationAPI.Controllers
                         result = StatusCode(StatusCodes.Status401Unauthorized);
                     if (result == null)
                     {
-                        if (!_secretProcessor.Verify(clientCredential.Secret, await client.GetSecretHash(settings)))
+                        if (await client.VerifySecret(settings, clientCredential.Secret) == false)
                             result = StatusCode(StatusCodes.Status401Unauthorized);
                     }
                     if (result == null)
@@ -94,7 +99,7 @@ namespace AuthorizationAPI.Controllers
             }
             return result;
         }
-        */
+        
         [NonAction]
         private async Task<IUser> GetUser()
         {
@@ -114,13 +119,11 @@ namespace AuthorizationAPI.Controllers
                 }
                 user = _userFactory.Create(subscriber, emailAddress);
                 user.Name = GetUserNameClaim().Value;
-                //SetSuperUser(user);
                 await _userSaver.Create(coreSettings, user);
             }
             else
             {
                 user.Name = GetUserNameClaim().Value;
-                //SetSuperUser(user);
                 await _userSaver.Update(coreSettings, user);
             }
             return user;
@@ -153,19 +156,6 @@ namespace AuthorizationAPI.Controllers
             }
             return roles;
         }
-
-        //[NonAction]
-        //private void SetSuperUser(IUser user)
-        //{
-        //    string email = User.Claims.First(c => c.Type == ClaimTypes.Email).Value;
-        //    if (!string.IsNullOrEmpty(_settings.Value.SuperUser) && string.Equals(email, _settings.Value.SuperUser, StringComparison.OrdinalIgnoreCase))
-        //    {
-        //        user.Roles = user.Roles |
-        //            UserRole.SystemAdministrator |
-        //            UserRole.AccountAdministrator
-        //            ;
-        //    }
-        //}
 
         [NonAction]
         private async Task<string> CreateToken(IUser user)

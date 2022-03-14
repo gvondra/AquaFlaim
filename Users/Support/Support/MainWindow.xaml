@@ -20,6 +20,7 @@
                 <Separator/>
                 <MenuItem Header="Authorization">
                     <MenuItem Header="Find User" Command="NavigationCommands.GoToPage" CommandParameter="Authorization/User.xaml"/>
+                    <MenuItem Header="Clients" Command="NavigationCommands.GoToPage" CommandParameter="Authorization/Clients.xaml"/>
                     <MenuItem Header="Roles" Command="NavigationCommands.GoToPage" CommandParameter="Authorization/Roles.xaml"/>
                 </MenuItem>
                 <Separator/>

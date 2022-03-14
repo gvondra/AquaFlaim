@@ -15,6 +15,7 @@ namespace AquaFlaim.Interface.Authorization
             base.Load(builder);
             builder.RegisterType<RestUtil>().SingleInstance();
             builder.RegisterType<Service>().SingleInstance().As<IService>();
+            builder.RegisterType<ClientService>().As<IClientService>();
             builder.RegisterType<RoleService>().As<IRoleService>();
             builder.RegisterType<TokenService>().As<ITokenService>();
             builder.RegisterType<UserService>().As<IUserService>();

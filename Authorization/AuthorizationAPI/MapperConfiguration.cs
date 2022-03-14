@@ -11,6 +11,8 @@ namespace AuthorizationAPI
         {
             _mapperConfiguration = new AutoMapper.MapperConfiguration(configExp =>
             {
+                configExp.CreateMap<IClient, Client>();
+                configExp.CreateMap<Client, IClient>();
                 configExp.CreateMap<IRole, Role>();
                 configExp.CreateMap<Role, IRole>();
                 configExp.CreateMap<IUser, User>();

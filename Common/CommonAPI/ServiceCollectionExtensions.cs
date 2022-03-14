@@ -46,6 +46,8 @@ namespace AquaFlaim.CommonAPI
                         .AddAuthenticationSchemes(Constants.AUTH_SCHEMA_EXTERNAL)
                         .Build();
                     });
+                AddPolicy(o, Constants.POLICY_CLIENT_EDIT, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"]);
+                AddPolicy(o, Constants.POLICY_CLIENT_READ, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"]);
                 AddPolicy(o, Constants.POLICY_ROLE_EDIT, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"]);
                 AddPolicy(o, Constants.POLICY_USER_EDIT, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"]);
                 AddPolicy(o, Constants.POLICY_USER_READ, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"]);

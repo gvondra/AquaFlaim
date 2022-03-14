@@ -1,4 +1,5 @@
-﻿using BrassLoon.RestClient;
+﻿using AquaFlaim.Interface.Authorization.Models;
+using BrassLoon.RestClient;
 using Polly;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,19 @@ namespace AquaFlaim.Interface.Authorization
             builder.Path = _restUtil.AppendPath(builder.Path, "api", "Token");
             IRequest request = _service.CreateRequest(builder.Uri, HttpMethod.Post);
             request.AddJwtAuthorizationToken(settings.GetToken);
+            IResponse<string> response = await Policy
+                .HandleResult<IResponse<string>>(res => !res.IsSuccessStatusCode)
+                .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)))
+                .ExecuteAsync(() => _service.Send<string>(request));
+            _restUtil.CheckSuccess(response);
+            return response.Value;
+        }
+
+        public async Task<string> Create(ISettings settings, ClientCredential clientCredential)
+        {
+            UriBuilder builder = new UriBuilder(settings.BaseAddress);
+            builder.Path = _restUtil.AppendPath(builder.Path, "api", "Token", "ClientCredential");
+            IRequest request = _service.CreateRequest(builder.Uri, HttpMethod.Post, clientCredential);
             IResponse<string> response = await Policy
                 .HandleResult<IResponse<string>>(res => !res.IsSuccessStatusCode)
                 .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)))
