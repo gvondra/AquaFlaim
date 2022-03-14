@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Protocols;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +13,7 @@ using System.Threading.Tasks;
 namespace AquaFlaim.CommonAPI
 {
     public static class ServiceCollectionExtensions
-    {
+    {        
         public static IServiceCollection AddCors(this IServiceCollection services, IConfiguration configuration)
         {
             IConfigurationSection section = configuration.GetSection("CorsOrigins");
@@ -64,6 +67,40 @@ namespace AquaFlaim.CommonAPI
                         .AddAuthenticationSchemes(schema)
                         .Build();
                     });
+        }
+
+        public static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration)
+        {
+            HttpDocumentRetriever documentRetriever = new HttpDocumentRetriever() { RequireHttps = false };
+            JsonWebKeySet keySet = JsonWebKeySet.Create(
+                documentRetriever.GetDocumentAsync(configuration["JwkAddress"], new System.Threading.CancellationToken()).Result
+                );
+            services.AddAuthentication(o =>
+            {
+                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(Constants.AUTH_SCHEMA_AQUA_FLAIM, o =>
+            {
+                o.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateAudience = true,
+                    ValidateIssuer = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidateLifetime = true,
+                    ValidateActor = false,
+                    ValidateTokenReplay = false,
+                    RequireAudience = false,
+                    RequireExpirationTime = true,
+                    RequireSignedTokens = true,
+                    ValidAudience = configuration["InternalIdIssuer"],
+                    ValidIssuer = configuration["InternalIdIssuer"],
+                    IssuerSigningKey = keySet.Keys[0]
+                };
+                o.IncludeErrorDetails = true;
+            })
+            ;
+            return services;
         }
     }
 }

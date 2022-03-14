@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using AquaFlaim.CommonAPI;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
@@ -14,12 +15,12 @@ namespace AuthorizationAPI
                 o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer("External", o =>
+            .AddJwtBearer(Constants.AUTH_SCHEMA_EXTERNAL, o =>
             {
                 o.Authority = configuration["ExternalIdIssuer"];
                 o.Audience = configuration["ExternalIdAudience"];
             })
-            .AddJwtBearer("AquaFlaim", o =>
+            .AddJwtBearer(Constants.AUTH_SCHEMA_AQUA_FLAIM, o =>
             {
                 o.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                 {

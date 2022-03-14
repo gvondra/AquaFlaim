@@ -1,10 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>disable</Nullable>
-		<AssemblyName>AquaFlaim.AuthorizationAPI</AssemblyName>
+		<AssemblyName>AquaFlaim.LogAPI</AssemblyName>
 		<Authors>Greg Vondra</Authors>
 		<Company />
 		<Product>Aqua Flaim</Product>
@@ -22,23 +22,21 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AquaFlaim.Interface.Authorization" Version="1.0.0-alpha.*" />
+		<PackageReference Include="AquaFlaim.Interface.Log" Version="1.0.0-alpha" />
 		<PackageReference Include="Autofac" Version="6.3.0" />
 		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
 		<PackageReference Include="AutoMapper" Version="11.0.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.2" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Common\CommonAPI\CommonAPI.csproj" />
-		<ProjectReference Include="..\..\Common\CommonCore\CommonCore.csproj" />
-		<ProjectReference Include="..\Authorization.Core\Authorization.Core.csproj" />
-		<ProjectReference Include="..\Authorization.Data\Authorization.Data.csproj" />
-		<ProjectReference Include="..\Authorization.Framework\Authorization.Framework.csproj" />
-		<ProjectReference Include="..\Interface.Authorization\Interface.Authorization.csproj" />
+	  <ProjectReference Include="..\..\Common\CommonAPI\CommonAPI.csproj" />
+	  <ProjectReference Include="..\..\Common\CommonCore\CommonCore.csproj" />
+	  <ProjectReference Include="..\Log.Data.Framework\Log.Data.Framework.csproj" />
+	  <ProjectReference Include="..\Log.Data\Log.Data.csproj" />
 	</ItemGroup>
 
 </Project>

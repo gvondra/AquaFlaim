@@ -1,7 +1,7 @@
 using AquaFlaim.CommonAPI;
-using AuthorizationAPI;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using LogAPI;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +10,7 @@ using Microsoft.OpenApi.Models;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-builder.Host.ConfigureContainer((ContainerBuilder builder) => builder.RegisterModule(new AuthorizationAPIModule()));
+builder.Host.ConfigureContainer((ContainerBuilder builder) => builder.RegisterModule(new LogApiModule()));
 
 // Add services to the container.
 builder.Services.Configure<Settings>(builder.Configuration);
@@ -30,7 +30,7 @@ builder.Services.AddSwaggerGen(o =>
         new OpenApiInfo
         {
             Version = "v1",
-            Title = "Aqua Flaim Authorization API"
+            Title = "Aqua Flaim Logging API"
         });
     o.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
@@ -53,7 +53,7 @@ builder.Services.AddSwaggerGen(o =>
     }
     });
 });
-AuthorizationAPI.ServiceCollectionExtensions.AddAuthentication(builder.Services, builder.Configuration);
+builder.Services.AddAuthentication(builder.Configuration);
 builder.Services.AddSingleton<IAuthorizationHandler, AuthorizationHandler>();
 builder.Services.AddAuthorization(builder.Configuration);
 
