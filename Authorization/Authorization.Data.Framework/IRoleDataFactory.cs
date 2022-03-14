@@ -13,5 +13,6 @@ namespace AquaFlaim.Authorization.Data.Framework
         Task<RoleData> Get(ISqlSettings settings, int id);
         Task<IEnumerable<RoleData>> GetAll(ISqlSettings settings);
         Task<IEnumerable<RoleData>> GetByUserId(ISqlSettings settings, Guid userId);
+        Task<IEnumerable<RoleData>> GetByClientId(ISqlSettings settings, Guid clientId);
     }
 }

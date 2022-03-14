@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AuthModels = AquaFlaim.Interface.Authorization.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -12,6 +13,7 @@ namespace AquaFlaim.User.Support.Authorization.ViewModel
     public class ClientsVM : INotifyPropertyChanged
     {
         private ClientVM _selectedClient;
+        private List<AuthModels.Role> _allRoles;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -23,6 +25,16 @@ namespace AquaFlaim.User.Support.Authorization.ViewModel
             set
             {
                 _selectedClient = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        public List<AuthModels.Role> AllRoles
+        {
+            get => _allRoles;
+            set
+            {
+                _allRoles = value;
                 NotifyPropertyChanged();
             }
         }

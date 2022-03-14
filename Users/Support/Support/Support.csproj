@@ -36,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AquaFlaim.Interface.Authorization, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\AquaFlaim.Interface.Authorization.1.0.0-alpha.15\lib\netstandard2.0\AquaFlaim.Interface.Authorization.dll</HintPath>
+      <HintPath>packages\AquaFlaim.Interface.Authorization.1.0.0-alpha.16\lib\netstandard2.0\AquaFlaim.Interface.Authorization.dll</HintPath>
     </Reference>
     <Reference Include="Autofac, Version=6.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>packages\Autofac.6.3.0\lib\netstandard2.0\Autofac.dll</HintPath>
@@ -102,6 +102,7 @@
     <Compile Include="Authorization\User.xaml.cs">
       <DependentUpon>User.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Authorization\ViewModel\ClientRoleVM.cs" />
     <Compile Include="Authorization\ViewModel\ClientsVM.cs" />
     <Compile Include="Authorization\ViewModel\ClientValidator.cs" />
     <Compile Include="Authorization\ViewModel\ClientVM.cs" />

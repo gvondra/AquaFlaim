@@ -118,5 +118,37 @@ namespace AquaFlaim.Authorization.Data
                 }
             }
         }
+
+        public async Task AddRole(ISqlTransactionHandler transactionHandler, Guid clientId, int roleId)
+        {
+            await _providerFactory.EstablishTransaction(transactionHandler);
+            using (DbCommand command = transactionHandler.Connection.CreateCommand())
+            {
+                command.CommandText = "[aut].[CreateClientRole]";
+                command.CommandType = CommandType.StoredProcedure;
+                command.Transaction = transactionHandler.Transaction.InnerTransaction;
+
+                DataUtil.AddParameter(_providerFactory, command.Parameters, "clientId", DbType.Guid, clientId);
+                DataUtil.AddParameter(_providerFactory, command.Parameters, "roleId", DbType.Int32, roleId);
+
+                await command.ExecuteNonQueryAsync();
+            }
+        }
+
+        public async Task RemoveRole(ISqlTransactionHandler transactionHandler, Guid clientId, int roleId)
+        {
+            await _providerFactory.EstablishTransaction(transactionHandler);
+            using (DbCommand command = transactionHandler.Connection.CreateCommand())
+            {
+                command.CommandText = "[aut].[RemoveClientRole]";
+                command.CommandType = CommandType.StoredProcedure;
+                command.Transaction = transactionHandler.Transaction.InnerTransaction;
+
+                DataUtil.AddParameter(_providerFactory, command.Parameters, "clientId", DbType.Guid, clientId);
+                DataUtil.AddParameter(_providerFactory, command.Parameters, "roleId", DbType.Int32, roleId);
+
+                await command.ExecuteNonQueryAsync();
+            }
+        }
     }
 }

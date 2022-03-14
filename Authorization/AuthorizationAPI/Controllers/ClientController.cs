@@ -40,6 +40,14 @@ namespace AuthorizationAPI.Controllers
             _clientSecretProcessor = clientSecretProcessor;
         }
 
+        [NonAction]
+        private async Task<Client> MapClient(ISettings settings, IMapper mapper, IClient innerClient)
+        {
+            Client client = _mapper.Map<Client>(innerClient);
+            client.Roles = await innerClient.GetRoles(settings);
+            return client;
+        }
+
         [HttpGet()]
         [Authorize(Constants.POLICY_CLIENT_READ)]
         [ProducesResponseType(typeof(Client), 200)]
@@ -48,8 +56,9 @@ namespace AuthorizationAPI.Controllers
             IActionResult result = null;
             try
             {
-                IEnumerable<IClient> innerClients = await _clientFactory.GetAll(_settingsFactory.CreateCore(_settings.Value));
-                result = Ok(innerClients.Select<IClient, Client>(c => _mapper.Map<Client>(c)));
+                ISettings settings = _settingsFactory.CreateCore(_settings.Value);
+                IEnumerable<IClient> innerClients = await _clientFactory.GetAll(settings);
+                result = Ok(await Task.WhenAll(innerClients.Select<IClient, Task<Client>>(async c => await MapClient(settings, _mapper, c))));
             }
             catch (Exception ex)
             {
@@ -62,7 +71,7 @@ namespace AuthorizationAPI.Controllers
         [HttpGet("{id}")]
         [Authorize(Constants.POLICY_CLIENT_READ)]
         [ProducesResponseType(typeof(Client), 200)]
-        public async Task<IActionResult> GetAll([FromRoute] Guid? id)
+        public async Task<IActionResult> Get([FromRoute] Guid? id)
         {
             IActionResult result = null;
             try
@@ -71,12 +80,13 @@ namespace AuthorizationAPI.Controllers
                     result = BadRequest("Missing id parameter value");
                 if (result == null)
                 {
-                    IClient innerClient = await _clientFactory.Get(_settingsFactory.CreateCore(_settings.Value), id.Value);
+                    ISettings settings = _settingsFactory.CreateCore(_settings.Value);
+                    IClient innerClient = await _clientFactory.Get(settings, id.Value);
                     if (innerClient == null)
                         result = NotFound();
                     if (result == null)
                     {
-                        result = Ok(_mapper.Map<Client>(innerClient));
+                        result = Ok(await MapClient(settings, _mapper, innerClient));
                     }
                 }
             }
@@ -106,6 +116,23 @@ namespace AuthorizationAPI.Controllers
             return result;
         }
 
+        [NonAction]
+        private async Task SetRoles(ISettings settings, Client client, IClient innerClient)
+        {
+            if (client.Roles != null)
+            {
+                foreach (string key in client.Roles.Keys)
+                {
+                    await innerClient.AddRole(settings, key);
+                }
+            }
+            foreach (string key in (await innerClient.GetRoles(settings)).Keys)
+            {
+                if (client.Roles == null || !client.Roles.ContainsKey(key))
+                    await innerClient.RemoveRole(settings, key);
+            }
+        }
+
         [HttpPost()]
         [Authorize(Constants.POLICY_CLIENT_EDIT)]
         [ProducesResponseType(typeof(Client), 200)]
@@ -122,10 +149,12 @@ namespace AuthorizationAPI.Controllers
                     result = BadRequest("Missing secret value");
                 if (result == null)
                 {
+                    ISettings settings = _settingsFactory.CreateCore(_settings.Value);
                     IClient innerClient = _clientFactory.Create(request.Secret);
                     _mapper.Map<Client, IClient>(request.Client, innerClient);
-                    await _clientSaver.Create(_settingsFactory.CreateCore(_settings.Value), innerClient);
-                    result = Ok(_mapper.Map<Client>(innerClient));
+                    await SetRoles(settings, request.Client, innerClient);
+                    await _clientSaver.Create(settings, innerClient);
+                    result = Ok(await MapClient(settings, _mapper, innerClient));
                 }
             }
             catch (Exception ex)
@@ -159,10 +188,11 @@ namespace AuthorizationAPI.Controllers
                     if (result == null)
                     {
                         _mapper.Map<Client, IClient>(request.Client, innerClient);
+                        await SetRoles(settings, request.Client, innerClient);
                         if (!string.IsNullOrEmpty(request.Secret))
                             innerClient.SetSecret(request.Secret);
                         await _clientSaver.Update(_settingsFactory.CreateCore(_settings.Value), innerClient);
-                        result = Ok(_mapper.Map<Client>(innerClient));
+                        result = Ok(await MapClient(settings, _mapper, innerClient));
                     }
                 }
             }

@@ -132,11 +132,13 @@ namespace AquaFlaim.Authorization.Core
                 _removeRoles.Add(_currentRoles[index]);
                 _currentRoles.RemoveAt(index);
             }
-            index = _newRoles.FindIndex(d => string.Equals(d.PolicyName, policyName, StringComparison.OrdinalIgnoreCase));
-            if (index >= 0)
+            if (_newRoles != null)
             {
-                _removeRoles.Add(_newRoles[index]);
-                _newRoles.RemoveAt(index);
+                index = _newRoles.FindIndex(d => string.Equals(d.PolicyName, policyName, StringComparison.OrdinalIgnoreCase));
+                if (index >= 0)
+                {
+                    _newRoles.RemoveAt(index);
+                }
             }
         }
     }

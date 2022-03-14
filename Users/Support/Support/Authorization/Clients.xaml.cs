@@ -44,6 +44,30 @@ namespace AquaFlaim.User.Support.Authorization
             GoogleLogin.ShowLoginDialog();
             Task.Run(GetAllClients)
                 .ContinueWith(GetAllClaimsCallback, null, TaskScheduler.FromCurrentSynchronizationContext());
+            Task.Run(GetAllRoles)
+                .ContinueWith(GetAllRolesCallback, null, TaskScheduler.FromCurrentSynchronizationContext());
+        }
+
+        private async Task<List<Role>> GetAllRoles()
+        {
+            using (ILifetimeScope scope = _container.BeginLifetimeScope())
+            {
+                ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
+                IRoleService roleService = scope.Resolve<IRoleService>();
+                return (await roleService.GetAll(settingsFactory.CreateAuthorization())).ToList();
+            }
+        }
+
+        private async Task GetAllRolesCallback(Task<List<Role>> task, object state)
+        {
+            try
+            {
+                ClientsVM.AllRoles = await task;
+            }
+            catch (Exception ex)
+            {
+                ErrorWindow.Open(ex, Window.GetWindow(this));
+            }
         }
 
         private async Task<List<Client>> GetAllClients()
@@ -94,6 +118,7 @@ namespace AquaFlaim.User.Support.Authorization
                 ClientVM clientVM = CreateClient();                
                 ClientsVM.Clients.Add(clientVM);
                 ClientsVM.SelectedClient = clientVM;
+                LoadRoles();
                 Task.Run(CreateSecret)
                     .ContinueWith(CreateSecretCallback, clientVM, TaskScheduler.FromCurrentSynchronizationContext());
             }
@@ -132,6 +157,7 @@ namespace AquaFlaim.User.Support.Authorization
                 if (e.AddedItems != null && e.AddedItems.Count == 1)
                 {
                     ClientsVM.SelectedClient = (ClientVM)e.AddedItems[0];
+                    LoadRoles();
                 }
             }
             catch (Exception ex)
@@ -139,7 +165,7 @@ namespace AquaFlaim.User.Support.Authorization
                 ErrorWindow.Open(ex, Window.GetWindow(this));
             }
         }
-
+        
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -147,10 +173,12 @@ namespace AquaFlaim.User.Support.Authorization
                 if (ClientsVM.SelectedClient != null)
                 {
                     if (!string.IsNullOrEmpty(ClientsVM.SelectedClient.Secret))
+                    {
                         Clipboard.SetText(ClientsVM.SelectedClient.Secret);
+                        MessageBox.Show(Window.GetWindow(this), "Secret Copied", "Secret", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
                     Task.Run(() => Save(ClientsVM.SelectedClient))
                         .ContinueWith(SaveCallback, ClientsVM.SelectedClient, TaskScheduler.FromCurrentSynchronizationContext());
-                    MessageBox.Show(Window.GetWindow(this), "Secret Copied", "Secret", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
             catch (Exception ex)
@@ -163,6 +191,9 @@ namespace AquaFlaim.User.Support.Authorization
         {
             using (ILifetimeScope scope = _container.BeginLifetimeScope())
             {
+                clientVM.InnerClient.Roles = clientVM.Roles
+                    .Where(r => r.IsActive)
+                    .ToDictionary(r => r.PolicyName, r => r.Name);
                 ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
                 IClientService clientService = scope.Resolve<IClientService>();
                 if (clientVM.IsNew)
@@ -202,6 +233,24 @@ namespace AquaFlaim.User.Support.Authorization
             {
                 ErrorWindow.Open(ex, Window.GetWindow(this));
             }
+        }
+
+        private void LoadRoles()
+        {
+            bool isActive;
+            ClientVM clientVM = ClientsVM.SelectedClient;
+            if (ClientsVM.AllRoles != null && clientVM != null && clientVM.Roles.Count == 0)
+            {
+                foreach (Role role in ClientsVM.AllRoles)
+                {
+                    isActive = (clientVM.InnerClient.Roles != null && clientVM.InnerClient.Roles.ContainsKey(role.PolicyName));
+                    clientVM.Roles.Add(
+                        new ClientRoleVM(role)
+                        {
+                            IsActive = isActive
+                        });
+                }
+            }    
         }
     }
 }

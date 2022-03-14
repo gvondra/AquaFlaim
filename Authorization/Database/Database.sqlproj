@@ -95,6 +95,9 @@
     <Build Include="Stored Procedures\aut.UpdateClientCredentialDeactivate.sql" />
     <Build Include="Stored Procedures\aut.GetClientCredentialByClientId.sql" />
     <Build Include="Tables\aut.ClientRole.sql" />
+    <Build Include="Stored Procedures\aut.GetRoleByClientId.sql" />
+    <Build Include="Stored Procedures\aut.RemoveClientRole.sql" />
+    <Build Include="Stored Procedures\aut.CreateClientRole.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SqlSchemaCompare.scmp" />

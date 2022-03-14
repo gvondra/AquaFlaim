@@ -13,5 +13,6 @@ namespace AquaFlaim.Authorization.Framework
         Task<IRole> Get(ISettings settings, int id);
         Task<IEnumerable<IRole>> GetAll(ISettings settings);
         Task<IEnumerable<IRole>> GetByUserId(ISettings settings, Guid userId);
+        Task<IEnumerable<IRole>> GetByClientId(ISettings settings, Guid clientId);
     }
 }

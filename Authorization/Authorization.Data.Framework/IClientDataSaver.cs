@@ -14,5 +14,7 @@ namespace AquaFlaim.Authorization.Data.Framework
         Task Update(ISqlTransactionHandler transactionHandler, ClientData client);
         Task Create(ISqlTransactionHandler transactionHandler, ClientCredentialData clientCredentail);
         Task DeactivateClient(ISqlTransactionHandler transactionHandler, Guid clientId);
+        Task AddRole(ISqlTransactionHandler transactionHandler, Guid clientId, int roleId);
+        Task RemoveRole(ISqlTransactionHandler transactionHandler, Guid clientId, int roleId);
     }
 }

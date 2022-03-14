@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -17,6 +18,7 @@ namespace AquaFlaim.User.Support.Authorization.ViewModel
         private readonly List<object> _validators = new List<object>();
         private bool _isNew = false;
         private string _secret;
+        private readonly ObservableCollection<ClientRoleVM> _roles = new ObservableCollection<ClientRoleVM>();
 
         public ClientVM(Client client)
         {
@@ -29,6 +31,8 @@ namespace AquaFlaim.User.Support.Authorization.ViewModel
         public event PropertyChangedEventHandler PropertyChanged;
 
         public Client InnerClient => _innerClient;
+
+        public ObservableCollection<ClientRoleVM> Roles => _roles;
 
         public bool IsNew
         {

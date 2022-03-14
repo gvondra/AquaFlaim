@@ -68,5 +68,11 @@ namespace AquaFlaim.Authorization.Core
                 throw new ArgumentNullException(nameof(policyName));
             return Create(new RoleData { PolicyName = policyName });
         }
+
+        public async Task<IEnumerable<IRole>> GetByClientId(ISettings settings, Guid clientId)
+        {
+            return (await _dataFactory.GetByClientId(new DataSettings(settings), clientId))
+                .Select<RoleData, IRole>(d => Create(d));
+        }
     }
 }

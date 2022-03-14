@@ -14,15 +14,18 @@ namespace AquaFlaim.Authorization.Core
     {
         private readonly IClientDataFactory _dataFactory;
         private readonly IClientDataSaver _dataSaver;
+        private readonly IRoleDataFactory _roleDataFactory;
 
         public ClientFactory(IClientDataFactory dataFactory,
-            IClientDataSaver dataSaver)
+            IClientDataSaver dataSaver,
+            IRoleDataFactory roleDataFactory)
         {
             _dataFactory = dataFactory;
             _dataSaver = dataSaver;
+            _roleDataFactory = roleDataFactory;
         }
 
-        private Client Create(ClientData data) => new Client(data, _dataFactory, _dataSaver);
+        private Client Create(ClientData data) => new Client(data, _dataFactory, _dataSaver, _roleDataFactory);
 
         public IClient Create(string secret)
         {

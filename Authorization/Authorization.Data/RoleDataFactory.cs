@@ -54,5 +54,16 @@ namespace AquaFlaim.Authorization.Data
                 DataUtil.AssignDataStateManager,
                 new List<IDataParameter> { parameter }));
         }
+
+        public async Task<IEnumerable<RoleData>> GetByClientId(ISqlSettings settings, Guid clientId)
+        {
+            IDataParameter parameter = DataUtil.CreateParameter(_dbProviderFactory, "clientId", DbType.Guid, clientId);
+            return (await _genericDataFactory.GetData(settings,
+                _dbProviderFactory,
+                "[aut].[GetRoleByClientId]",
+                CreateData,
+                DataUtil.AssignDataStateManager,
+                new List<IDataParameter> { parameter }));
+        }
     }
 }

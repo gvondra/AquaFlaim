@@ -19,6 +19,7 @@ namespace AquaFlaim.User.Support.Authorization.ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        // the email address to be searched for
         public string FindAddress
         {
             get => _findAddress;
