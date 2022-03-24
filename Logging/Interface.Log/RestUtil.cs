@@ -23,12 +23,18 @@ namespace AquaFlaim.Interface.Log
             return response.Value;
         }
 
-        internal void CheckSuccess(IResponse response)
+        internal async Task CheckSuccess(IResponse response)
         {
             if (!response.IsSuccessStatusCode)
             {
                 ApplicationException exception = new ApplicationException($"Error {(int)response.StatusCode} {response.StatusCode}");
                 exception.Data["RequestAddress"] = response.Message.RequestMessage.RequestUri.ToString();
+                if (response.Message.Headers
+                    .Any(h => string.Equals("content-type", h.Key, StringComparison.OrdinalIgnoreCase) 
+                    && string.Equals("text/plain", h.Value.FirstOrDefault() ?? string.Empty, StringComparison.OrdinalIgnoreCase)))
+                {
+                    exception.Data["Text"] = await response.Message.Content.ReadAsStringAsync();
+                }
                 throw exception;
             }
         }

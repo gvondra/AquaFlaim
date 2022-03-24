@@ -28,7 +28,7 @@ namespace AquaFlaim.Interface.Log
             IRequest request = _service.CreateRequest(builder.Uri, HttpMethod.Post, metrics);
             request.AddJwtAuthorizationToken(settings.GetToken);
             IResponse response = await _service.Send(request);
-            _restUtil.CheckSuccess(response);
+            await _restUtil.CheckSuccess(response);
         }
 
         public Task Create(ISettings settings, string eventCode, double? magnitude, string status = null, Dictionary<string, string> data = null)
