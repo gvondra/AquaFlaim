@@ -51,6 +51,7 @@ namespace AquaFlaim.CommonAPI
                     });
                 AddPolicy(o, Constants.POLICY_CLIENT_EDIT, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"]);
                 AddPolicy(o, Constants.POLICY_CLIENT_READ, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"]);
+                AddPolicy(o, Constants.POLICY_LOG_WRITE, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"], _additionalLogWritePolicies);
                 AddPolicy(o, Constants.POLICY_ROLE_EDIT, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"]);
                 AddPolicy(o, Constants.POLICY_USER_EDIT, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"]);
                 AddPolicy(o, Constants.POLICY_USER_READ, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"]);
@@ -58,12 +59,29 @@ namespace AquaFlaim.CommonAPI
             return services;
         }
 
-        private static void AddPolicy(AuthorizationOptions authorizationOptions, string policyName, string schema, string issuer)
+        private static string[] _additionalLogWritePolicies = new string[]
         {
+            Constants.POLICY_CLIENT_EDIT,
+            Constants.POLICY_CLIENT_READ,
+            Constants.POLICY_ROLE_EDIT,
+            Constants.POLICY_USER_EDIT,
+            Constants.POLICY_USER_READ
+        };
+
+        private static void AddPolicy(AuthorizationOptions authorizationOptions, string policyName, string schema, string issuer, IEnumerable<string> additinalPolicies = null)
+        {
+            if (additinalPolicies == null)
+            {
+                additinalPolicies = new List<string> { policyName };
+            }
+            else if (!additinalPolicies.Contains(policyName))
+            {
+                additinalPolicies = additinalPolicies.Concat(new List<string> { policyName });
+            }
             authorizationOptions.AddPolicy(policyName,
                     configure =>
                     {
-                        configure.AddRequirements(new AuthorizationRequirement(policyName, issuer, policyName))
+                        configure.AddRequirements(new AuthorizationRequirement(policyName, issuer, additinalPolicies.ToArray()))
                         .AddAuthenticationSchemes(schema)
                         .Build();
                     });
