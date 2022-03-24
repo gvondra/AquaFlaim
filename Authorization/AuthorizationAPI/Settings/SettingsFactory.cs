@@ -1,4 +1,6 @@
 ﻿using AquaFlaim.CommonAPI;
+using AquaFlaim.Interface.Log;
+
 namespace AuthorizationAPI
 {
     public class SettingsFactory : ISettingsFactory
@@ -12,6 +14,11 @@ namespace AuthorizationAPI
                 ConnectionStringUser = settings.ConnectionStringUser,
                 KeyVaultAddress = settings.KeyVaultAddress                
             };
+        }
+
+        public ISettings CreateLog(Settings settings, string token)
+        {
+            return new LogSettings(settings.LogApiBaseAddress, token);
         }
     }
 }
