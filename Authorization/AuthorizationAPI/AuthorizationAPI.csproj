@@ -23,6 +23,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="AquaFlaim.Interface.Authorization" Version="1.0.0-alpha.*" />
+		<PackageReference Include="AquaFlaim.Interface.Log" Version="1.0.0-alpha.*" />
 		<PackageReference Include="Autofac" Version="6.3.0" />
 		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
 		<PackageReference Include="AutoMapper" Version="11.0.1" />
@@ -38,7 +39,6 @@
 		<ProjectReference Include="..\Authorization.Core\Authorization.Core.csproj" />
 		<ProjectReference Include="..\Authorization.Data\Authorization.Data.csproj" />
 		<ProjectReference Include="..\Authorization.Framework\Authorization.Framework.csproj" />
-		<ProjectReference Include="..\Interface.Authorization\Interface.Authorization.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using LogAPI = AquaFlaim.Interface.Log;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -13,13 +14,13 @@ namespace AuthorizationAPI.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class JwksController : AuthorizationControllerBase
-    {
-        private readonly IOptions<Settings> _settings;
+    {       
 
-        public JwksController(IOptions<Settings> settings)
-        {
-            _settings = settings;
-        }
+        public JwksController(IOptions<Settings> settings,
+            ISettingsFactory settingsFactory,
+            LogAPI.IMetricService metricService)
+            : base(settings, settingsFactory, metricService)
+        { }
 
         [HttpGet]
         [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 150)]

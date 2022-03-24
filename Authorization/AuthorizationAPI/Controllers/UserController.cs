@@ -1,4 +1,5 @@
-﻿using AquaFlaim.Authorization.Framework;
+﻿using LogAPI = AquaFlaim.Interface.Log;
+using AquaFlaim.Authorization.Framework;
 using AquaFlaim.Interface.Authorization.Models;
 using AquaFlaim.CommonCore;
 using AutoMapper;
@@ -18,20 +19,18 @@ namespace AuthorizationAPI.Controllers
     [ApiController]
     public class UserController : AuthorizationControllerBase
     {
-        private readonly IOptions<Settings> _settings;
-        private readonly ISettingsFactory _settingsFactory;
         private readonly IMapper _mapper;
         private readonly IUserFactory _userFactory;
         private readonly IUserSaver _userSaver;
 
         public UserController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
+            LogAPI.IMetricService metricService,
             IMapper mapper,
             IUserFactory userFactory,
             IUserSaver userSaver)
+            : base(settings, settingsFactory, metricService)
         {
-            _settings = settings;
-            _settingsFactory = settingsFactory;
             _mapper = mapper;
             _userFactory = userFactory;
             _userSaver = userSaver;
@@ -42,6 +41,7 @@ namespace AuthorizationAPI.Controllers
         [ProducesResponseType(typeof(User), 200)]
         public async Task<IActionResult> GetAll([FromQuery] string emailAddress)
         {
+            DateTime start = DateTime.UtcNow;
             IActionResult result = null;
             try
             {
@@ -64,6 +64,10 @@ namespace AuthorizationAPI.Controllers
                 //todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
             }
+            finally
+            {
+                _ = WriteMetrics("get-user-all", DateTime.UtcNow.Subtract(start).TotalSeconds, new Dictionary<string, string> { { nameof(emailAddress), emailAddress } });
+            }
             return result;
         }
 
@@ -72,6 +76,7 @@ namespace AuthorizationAPI.Controllers
         [ProducesResponseType(typeof(User), 200)]
         public async Task<IActionResult> Get([FromRoute] Guid? id)
         {
+            DateTime start = DateTime.UtcNow;
             IActionResult result = null;
             try
             {
@@ -95,6 +100,10 @@ namespace AuthorizationAPI.Controllers
                 //todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
             }
+            finally
+            {
+                _ = WriteMetrics("get-user", DateTime.UtcNow.Subtract(start).TotalSeconds, new Dictionary<string, string> { { "Id", id.ToString() } });
+            }
             return result;
         }
 
@@ -112,6 +121,7 @@ namespace AuthorizationAPI.Controllers
         [ProducesResponseType(typeof(User), 200)]
         public async Task<IActionResult> Update([FromRoute] Guid? id, [FromBody] User user)
         {
+            DateTime start = DateTime.UtcNow;
             IActionResult result = null;
             try
             {
@@ -153,6 +163,10 @@ namespace AuthorizationAPI.Controllers
             {
                 //todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            finally
+            {
+                _ = WriteMetrics("update-user", DateTime.UtcNow.Subtract(start).TotalSeconds);
             }
             return result;
         }

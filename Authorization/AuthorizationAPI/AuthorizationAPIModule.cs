@@ -10,6 +10,7 @@ namespace AuthorizationAPI
             builder.RegisterModule(new AquaFlaim.Authorization.Core.AuthorizationCoreModule());
             builder.RegisterModule(new AquaFlaim.Authorization.Data.AuthorizationDataModule());
             builder.RegisterModule(new AquaFlaim.Interface.Authorization.InterfaceAuthorizationModule());
+            builder.RegisterModule(new AquaFlaim.Interface.Log.InterfaceLogModule());
             builder.RegisterType<SettingsFactory>().SingleInstance().As<ISettingsFactory>();
             builder.Register<IMapper>((context) => MapperConfiguration.CreateMapper());
         }

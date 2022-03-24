@@ -1,4 +1,5 @@
-﻿using AquaFlaim.Authorization.Framework;
+﻿using LogAPI = AquaFlaim.Interface.Log;
+using AquaFlaim.Authorization.Framework;
 using AquaFlaim.Interface.Authorization.Models;
 using AquaFlaim.CommonAPI;
 using AquaFlaim.CommonCore;
@@ -21,8 +22,6 @@ namespace AuthorizationAPI.Controllers
     [ApiController]
     public class TokenController : AuthorizationControllerBase
     {
-        private readonly IOptions<Settings> _settings;
-        private readonly ISettingsFactory _settingsFactory;
         private readonly IClientFactory _clientFactory;
         private readonly IUserFactory _userFactory;
         private readonly IUserSaver _userSaver;
@@ -31,15 +30,14 @@ namespace AuthorizationAPI.Controllers
 
         public TokenController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
+            LogAPI.IMetricService metricService,
             IClientFactory clientFactory,
-            IClientSecretProcessor clientSecretProcessor,
             IUserFactory userFactory,
             IUserSaver userSaver,
             IEmailAddressFactory emailAddressFactory,
             IEmailAddressSaver emailAddressSaver)
+            : base(settings, settingsFactory, metricService)
         {
-            _settings = settings;
-            _settingsFactory = settingsFactory;
             _clientFactory = clientFactory;
             _userFactory = userFactory;
             _userSaver = userSaver;
@@ -148,6 +146,7 @@ namespace AuthorizationAPI.Controllers
             {
                 List<string> superUserRoles = new List<string>
                 {
+                    Constants.POLICY_LOG_WRITE,
                     Constants.POLICY_ROLE_EDIT,
                     Constants.POLICY_USER_EDIT,
                     Constants.POLICY_USER_READ
@@ -183,6 +182,7 @@ namespace AuthorizationAPI.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        [NonAction]
         private async Task AddRoleClaims(ISettings settings, List<Claim> claims, IUser user)
         {
             foreach (string role in await GetUserRoles(settings, user))

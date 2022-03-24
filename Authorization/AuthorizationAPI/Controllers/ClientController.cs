@@ -1,4 +1,5 @@
-﻿using AquaFlaim.Authorization.Framework;
+﻿using LogAPI = AquaFlaim.Interface.Log;
+using AquaFlaim.Authorization.Framework;
 using AquaFlaim.Interface.Authorization.Models;
 using AquaFlaim.CommonCore;
 using AutoMapper;
@@ -18,8 +19,6 @@ namespace AuthorizationAPI.Controllers
     [ApiController]
     public class ClientController : AuthorizationControllerBase
     {
-        private readonly IOptions<Settings> _settings;
-        private readonly ISettingsFactory _settingsFactory;
         private readonly IMapper _mapper;
         private readonly IClientFactory _clientFactory;
         private readonly IClientSaver _clientSaver;
@@ -27,13 +26,13 @@ namespace AuthorizationAPI.Controllers
 
         public ClientController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
+            LogAPI.IMetricService metricService,
             IMapper mapper,
             IClientFactory clientFactory,
             IClientSaver clientSaver,
             IClientSecretProcessor clientSecretProcessor)
+            : base(settings, settingsFactory, metricService)
         {
-            _settings = settings;
-            _settingsFactory = settingsFactory;
             _mapper = mapper;
             _clientFactory = clientFactory;
             _clientSaver = clientSaver;
@@ -53,6 +52,7 @@ namespace AuthorizationAPI.Controllers
         [ProducesResponseType(typeof(Client), 200)]
         public async Task<IActionResult> GetAll()
         {
+            DateTime start = DateTime.UtcNow;
             IActionResult result = null;
             try
             {
@@ -65,6 +65,10 @@ namespace AuthorizationAPI.Controllers
                 //todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
             }
+            finally
+            {
+                _ = WriteMetrics("get-client-all", DateTime.UtcNow.Subtract(start).TotalSeconds);
+            }
             return result;
         }
 
@@ -73,6 +77,7 @@ namespace AuthorizationAPI.Controllers
         [ProducesResponseType(typeof(Client), 200)]
         public async Task<IActionResult> Get([FromRoute] Guid? id)
         {
+            DateTime start = DateTime.UtcNow;
             IActionResult result = null;
             try
             {
@@ -95,6 +100,10 @@ namespace AuthorizationAPI.Controllers
                 //todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
             }
+            finally
+            {
+                _ = WriteMetrics("get-client", DateTime.UtcNow.Subtract(start).TotalSeconds, new Dictionary<string, string> { { nameof(id), id.ToString() } });
+            }
             return result;
         }
 
@@ -103,6 +112,7 @@ namespace AuthorizationAPI.Controllers
         [ProducesResponseType(typeof(string), 200)]
         public IActionResult GetClientCredentialSecret()
         {
+            DateTime start = DateTime.UtcNow;
             IActionResult result;
             try
             {
@@ -112,6 +122,10 @@ namespace AuthorizationAPI.Controllers
             {
                 //todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            finally
+            {
+                _ = WriteMetrics("get-client-credential-secret", DateTime.UtcNow.Subtract(start).TotalSeconds);
             }
             return result;
         }
@@ -138,6 +152,7 @@ namespace AuthorizationAPI.Controllers
         [ProducesResponseType(typeof(Client), 200)]
         public async Task<IActionResult> Create(ClientSaveRequest request)
         {
+            DateTime start = DateTime.UtcNow;
             IActionResult result = null;
             try
             {
@@ -162,6 +177,10 @@ namespace AuthorizationAPI.Controllers
                 //todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
             }
+            finally
+            {
+                _ = WriteMetrics("create-client", DateTime.UtcNow.Subtract(start).TotalSeconds);
+            }
             return result;
         }
 
@@ -170,6 +189,7 @@ namespace AuthorizationAPI.Controllers
         [ProducesResponseType(typeof(Client), 200)]
         public async Task<IActionResult> Update([FromRoute] Guid? id, ClientSaveRequest request)
         {
+            DateTime start = DateTime.UtcNow;
             IActionResult result = null;
             try
             {
@@ -200,6 +220,10 @@ namespace AuthorizationAPI.Controllers
             {
                 //todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            finally
+            {
+                _ = WriteMetrics("update-client", DateTime.UtcNow.Subtract(start).TotalSeconds, new Dictionary<string, string> { { nameof(id), id.ToString() } });
             }
             return result;
         }

@@ -5,23 +5,23 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database", "Database\Database.sqlproj", "{CADAEB4F-FB4A-4D0D-A3CC-0D0A2EF3DE14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthorizationAPI", "AuthorizationAPI\AuthorizationAPI.csproj", "{E1BA8F4B-6D88-43F7-82BF-29AB9B9EEBA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthorizationAPI", "AuthorizationAPI\AuthorizationAPI.csproj", "{E1BA8F4B-6D88-43F7-82BF-29AB9B9EEBA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authorization.Core", "Authorization.Core\Authorization.Core.csproj", "{08927B7F-B75D-4002-B469-7B842BFD1DD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authorization.Core", "Authorization.Core\Authorization.Core.csproj", "{08927B7F-B75D-4002-B469-7B842BFD1DD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authorization.Data", "Authorization.Data\Authorization.Data.csproj", "{0F0C2B30-40AD-4F6B-B51A-CA0B3430D9BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authorization.Data", "Authorization.Data\Authorization.Data.csproj", "{0F0C2B30-40AD-4F6B-B51A-CA0B3430D9BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authorization.Data.Framework", "Authorization.Data.Framework\Authorization.Data.Framework.csproj", "{0EC4B457-AC80-43CE-91AA-5BED460AE80B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authorization.Data.Framework", "Authorization.Data.Framework\Authorization.Data.Framework.csproj", "{0EC4B457-AC80-43CE-91AA-5BED460AE80B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authorization.Framework", "Authorization.Framework\Authorization.Framework.csproj", "{7D072AB7-3FE0-4C8D-A34F-876A3D74BB90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authorization.Framework", "Authorization.Framework\Authorization.Framework.csproj", "{7D072AB7-3FE0-4C8D-A34F-876A3D74BB90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonCore", "..\Common\CommonCore\CommonCore.csproj", "{CC651707-45FE-4A43-85BD-09BD14F4749A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonCore", "..\Common\CommonCore\CommonCore.csproj", "{CC651707-45FE-4A43-85BD-09BD14F4749A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interface.Authorization", "Interface.Authorization\Interface.Authorization.csproj", "{F6BC939B-8F16-433F-928B-62EB5025049A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interface.Authorization", "Interface.Authorization\Interface.Authorization.csproj", "{F6BC939B-8F16-433F-928B-62EB5025049A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonAPI", "..\Common\CommonAPI\CommonAPI.csproj", "{B31ECD7F-59B6-48D0-B7FB-20DABF9F4D48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonAPI", "..\Common\CommonAPI\CommonAPI.csproj", "{B31ECD7F-59B6-48D0-B7FB-20DABF9F4D48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RsaSecurityKeyGenerator", "RsaSecurityKeyGenerator\RsaSecurityKeyGenerator.csproj", "{3C13B899-F57E-474B-BBFC-62C7631216D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RsaSecurityKeyGenerator", "RsaSecurityKeyGenerator\RsaSecurityKeyGenerator.csproj", "{3C13B899-F57E-474B-BBFC-62C7631216D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,5 @@
-﻿using AquaFlaim.Authorization.Framework;
+﻿using LogAPI = AquaFlaim.Interface.Log;
+using AquaFlaim.Authorization.Framework;
 using AquaFlaim.Interface.Authorization.Models;
 using AquaFlaim.CommonCore;
 using AutoMapper;
@@ -18,20 +19,18 @@ namespace AuthorizationAPI.Controllers
     [ApiController]
     public class RoleController : AuthorizationControllerBase
     {
-        private readonly IOptions<Settings> _settings;
-        private readonly ISettingsFactory _settingsFactory;
         private readonly IRoleFactory _roleFactory;
         private readonly IRoleSaver _roleSaver;
         private readonly IMapper _mapper;
 
         public RoleController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
+            LogAPI.IMetricService metricService,
             IMapper mapper,
             IRoleFactory roleFactory,
             IRoleSaver roleSaver)
+            : base(settings, settingsFactory, metricService)
         {
-            _settings = settings;
-            _settingsFactory = settingsFactory;
             _mapper = mapper;
             _roleFactory = roleFactory;
             _roleSaver = roleSaver;
@@ -62,6 +61,7 @@ namespace AuthorizationAPI.Controllers
         [ProducesResponseType(typeof(Role), 200)]
         public async Task<IActionResult> Create([FromBody] Role role)
         {
+            DateTime start = DateTime.UtcNow;
             IActionResult result = null;
             try
             {
@@ -85,6 +85,10 @@ namespace AuthorizationAPI.Controllers
                 //todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
             }
+            finally
+            {
+                _ = WriteMetrics("create-role", DateTime.UtcNow.Subtract(start).TotalSeconds);
+            }
             return result;
         }
 
@@ -93,6 +97,7 @@ namespace AuthorizationAPI.Controllers
         [ProducesResponseType(typeof(Role), 200)]
         public async Task<IActionResult> Update([FromRoute] int? id, [FromBody] Role role)
         {
+            DateTime start = DateTime.UtcNow;
             IActionResult result = null;
             try
             {
@@ -120,6 +125,10 @@ namespace AuthorizationAPI.Controllers
             {
                 //todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            finally
+            {
+                _ = WriteMetrics("update-role", DateTime.UtcNow.Subtract(start).TotalSeconds, new Dictionary<string, string> { { nameof(id), id.ToString() } });
             }
             return result;
         }
