@@ -13,7 +13,7 @@ namespace LogAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MetricController : CommonControllerBase
+    public class MetricController : Controller
     {
         private readonly IOptions<Settings> _settings;
         private readonly ISettingsFactory _settingsFactory;
@@ -32,7 +32,7 @@ namespace LogAPI.Controllers
         }
 
         [HttpPost()]
-        [Authorize()]
+        [Authorize(Constants.POLICY_LOG_WRITE)]
         public async Task<IActionResult> Create([FromBody] Metric[] metrics)
         {
             if (metrics != null && metrics.Length > 0)
