@@ -23,6 +23,9 @@
                     <MenuItem Header="Clients" Command="NavigationCommands.GoToPage" CommandParameter="Authorization/Clients.xaml"/>
                     <MenuItem Header="Roles" Command="NavigationCommands.GoToPage" CommandParameter="Authorization/Roles.xaml"/>
                 </MenuItem>
+                <MenuItem Header="Logging">
+                    <MenuItem Header="Metrics" Command="NavigationCommands.GoToPage" CommandParameter="Logging/Metrics.xaml"/>
+                </MenuItem>
                 <Separator/>
                 <MenuItem Command="ApplicationCommands.Close"/>
             </MenuItem>

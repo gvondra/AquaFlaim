@@ -10,5 +10,7 @@ namespace AquaFlaim.User.Support
     {
         AquaFlaim.Interface.Authorization.ISettings CreateAuthorization();
         AquaFlaim.Interface.Authorization.ISettings CreateAuthorization(string token);
+        AquaFlaim.Interface.Log.ISettings CreateLog();
+        AquaFlaim.Interface.Log.ISettings CreateLog(string token);
     }
 }

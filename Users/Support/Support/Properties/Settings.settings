@@ -17,8 +17,5 @@
     <Setting Name="GoogleClientSecret" Type="System.String" Scope="Application">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="AuthorizationApiBaseAddress" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">http://localhost:500</Value>
-    </Setting>
   </Settings>
 </SettingsFile>

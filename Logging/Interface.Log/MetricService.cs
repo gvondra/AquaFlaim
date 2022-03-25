@@ -42,5 +42,29 @@ namespace AquaFlaim.Interface.Log
                 Data = data,
                 Timestamp = DateTime.UtcNow
             });
+
+        public async Task<IEnumerable<string>> GetEventCodes(ISettings settings)
+        {
+            UriBuilder builder = new UriBuilder(settings.BaseAddress);
+            builder.Path = _restUtil.AppendPath(builder.Path, "api", "MetricEventCode");
+            IRequest request = _service.CreateRequest(builder.Uri, HttpMethod.Get);
+            request.AddJwtAuthorizationToken(settings.GetToken);
+            IResponse<List<string>> response = await _service.Send<List<string>>(request);
+            _restUtil.CheckSuccess(response);
+            return response.Value;
+        }
+
+        public async Task<IEnumerable<Metric>> GetTopByTimestamp(ISettings settings, DateTime? maxTimestamp)
+        {
+            UriBuilder builder = new UriBuilder(settings.BaseAddress);
+            builder.Path = _restUtil.AppendPath(builder.Path, "api", "Metric");
+            IRequest request = _service.CreateRequest(builder.Uri, HttpMethod.Get);
+            request.AddJwtAuthorizationToken(settings.GetToken);
+            if (maxTimestamp.HasValue)
+                request.AddQueryParameter("maxTimestamp", maxTimestamp.Value.ToString("O"));
+            IResponse<List<Metric>> response = await _service.Send<List<Metric>>(request);
+            _restUtil.CheckSuccess(response);
+            return response.Value;
+        }
     }
 }

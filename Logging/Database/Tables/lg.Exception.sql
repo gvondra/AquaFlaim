@@ -16,4 +16,8 @@ WITH (DATA_COMPRESSION = PAGE)
 
 GO
 
-CREATE INDEX [IX_Exception_Timestamp_Source] ON [lg].[Exception] ([Timestamp] DESC, [Source])
+CREATE INDEX [IX_Exception_Timestamp] ON [lg].[Exception] ([Timestamp] DESC)
+
+GO
+
+CREATE INDEX [IX_Exception_Source] ON [lg].[Exception] ([Source])

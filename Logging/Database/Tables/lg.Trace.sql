@@ -11,4 +11,8 @@ WITH (DATA_COMPRESSION = PAGE)
 
 GO
 
-CREATE INDEX [IX_Trace_Timestamp_EventCode] ON [lg].[Trace] ([Timestamp] DESC, [EventCode])
+CREATE INDEX [IX_Trace_Timestamp] ON [lg].[Trace] ([Timestamp] DESC)
+
+GO
+
+CREATE INDEX [IX_Trace_EventCode] ON [lg].[Trace] ([Timestamp] DESC)

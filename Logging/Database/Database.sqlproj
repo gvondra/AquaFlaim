@@ -71,6 +71,8 @@
     <Build Include="Stored Procedures\lg.CreateException.sql" />
     <Build Include="Stored Procedures\lg.CreateMetric.sql" />
     <Build Include="Stored Procedures\lg.CreateTrace.sql" />
+    <Build Include="Stored Procedures\lg.GetMetricEvents.sql" />
+    <Build Include="Stored Procedures\lg.GetTopMetricByTimestamp.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LocalSqlSchemaCompare.scmp" />

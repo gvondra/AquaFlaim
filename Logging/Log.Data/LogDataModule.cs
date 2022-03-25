@@ -16,6 +16,7 @@ namespace AquaFlaim.Log.Data
             base.Load(builder);
             builder.Register<IDbProviderFactory>((context) => new BrassLoon.DataClient.SqlClientProviderFactory());
             builder.RegisterType<ExceptionDataSaver>().As<IExceptionDataSaver>();
+            builder.RegisterType<MetricDataFactory>().As<IMetricDataFactory>();
             builder.RegisterType<MetricDataSaver>().As<IMetricDataSaver>();
             builder.RegisterType<TraceDataSaver>().As<ITraceDataSaver>();
         }

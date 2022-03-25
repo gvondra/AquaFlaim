@@ -12,4 +12,8 @@ WITH (DATA_COMPRESSION = PAGE)
 
 GO
 
-CREATE INDEX [IX_Metric_Timestamp_EventCode] ON [lg].[Metric] ([Timestamp] DESC, [EventCode])
+CREATE INDEX [IX_Metric_Timestamp] ON [lg].[Metric] ([Timestamp] DESC)
+
+GO
+
+CREATE INDEX [IX_Metric_EventCode] ON [lg].[Metric] ([EventCode])

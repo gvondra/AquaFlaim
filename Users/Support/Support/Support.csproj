@@ -38,6 +38,9 @@
     <Reference Include="AquaFlaim.Interface.Authorization, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\AquaFlaim.Interface.Authorization.1.0.0-alpha.16\lib\netstandard2.0\AquaFlaim.Interface.Authorization.dll</HintPath>
     </Reference>
+    <Reference Include="AquaFlaim.Interface.Log, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\AquaFlaim.Interface.Log.1.0.0-alpha.3\lib\netstandard2.0\AquaFlaim.Interface.Log.dll</HintPath>
+    </Reference>
     <Reference Include="Autofac, Version=6.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>packages\Autofac.6.3.0\lib\netstandard2.0\Autofac.dll</HintPath>
     </Reference>
@@ -57,6 +60,7 @@
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\System.Diagnostics.DiagnosticSource.4.7.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
@@ -113,8 +117,16 @@
     <Compile Include="Authorization\ViewModel\FindUserVM.cs" />
     <Compile Include="DependencyInjection\ContainerFactory.cs" />
     <Compile Include="DependencyInjection\SupportModule.cs" />
+    <Compile Include="Logging\Metrics.xaml.cs">
+      <DependentUpon>Metrics.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Logging\MetricsValidator.cs" />
+    <Compile Include="Logging\ViewModel\MetricsVM.cs" />
+    <Compile Include="Logging\ViewModel\MetricVM.cs" />
     <Compile Include="Settings\AuthorizationSettings.cs" />
     <Compile Include="Settings\ISettingsFactory.cs" />
+    <Compile Include="Settings\LogSettings.cs" />
+    <Compile Include="Settings\Settings.cs" />
     <Compile Include="Settings\SettingsFactory.cs" />
     <Page Include="Authorization\Clients.xaml">
       <SubType>Designer</SubType>
@@ -137,6 +149,10 @@
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="GoogleLogin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Logging\Metrics.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
