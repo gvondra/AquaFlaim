@@ -26,10 +26,11 @@ namespace AuthorizationAPI.Controllers
         public RoleController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             LogAPI.IMetricService metricService,
+            LogAPI.IExceptionService exceptionService,
             IMapper mapper,
             IRoleFactory roleFactory,
             IRoleSaver roleSaver)
-            : base(settings, settingsFactory, metricService)
+            : base(settings, settingsFactory, metricService, exceptionService)
         {
             _mapper = mapper;
             _roleFactory = roleFactory;
@@ -50,7 +51,7 @@ namespace AuthorizationAPI.Controllers
             }
             catch (Exception ex)
             {
-                //todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
+                await WriteException(ex);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
             }
             return result;
@@ -82,7 +83,7 @@ namespace AuthorizationAPI.Controllers
             }
             catch (Exception ex)
             {
-                //todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
+                await WriteException(ex);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
             }
             finally
@@ -123,7 +124,7 @@ namespace AuthorizationAPI.Controllers
             }
             catch (Exception ex)
             {
-                //todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
+                await WriteException(ex);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
             }
             finally

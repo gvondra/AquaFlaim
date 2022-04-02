@@ -1,10 +1,12 @@
 ﻿using AquaFlaim.CommonAPI;
 using AquaFlaim.CommonCore;
+using AquaFlaim.Interface.Log;
 using AquaFlaim.Interface.Log.Models;
 using AquaFlaim.Log.Data.Framework;
 using AquaFlaim.Log.Data.Framework.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System;
@@ -16,10 +18,8 @@ namespace LogAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MetricController : Controller
+    public class MetricController : LogControllerBase
     {
-        private readonly IOptions<Settings> _settings;
-        private readonly ISettingsFactory _settingsFactory;
         private readonly IMapper _mapper;
         private readonly IMetricDataFactory _dataFactory;
         private readonly IMetricDataSaver _dataSaver;
@@ -27,11 +27,12 @@ namespace LogAPI.Controllers
         public MetricController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             IMapper mapper,
+            IMetricService metricService,
+            IExceptionService exceptionService,
             IMetricDataFactory dataFactory,
             IMetricDataSaver dataSaver)
+            : base(settings, settingsFactory, metricService, exceptionService)
         {
-            _settings = settings;
-            _settingsFactory = settingsFactory;
             _mapper = mapper;
             _dataFactory = dataFactory;
             _dataSaver = dataSaver;
@@ -53,13 +54,21 @@ namespace LogAPI.Controllers
         public async Task<IActionResult> Get([FromQuery] DateTime? maxTimestamp = null)
         {
             IActionResult result = null;
-            if (!maxTimestamp.HasValue)
-                maxTimestamp = DateTime.UtcNow;
-            maxTimestamp = maxTimestamp.Value.ToUniversalTime();
-            IEnumerable<MetricData> innerMetric = await _dataFactory.GetTopMetricsByTimestamp(_settingsFactory.CreateData(_settings.Value), maxTimestamp.Value);
-            result = Ok(
-                innerMetric.Select<MetricData, Metric>(data => _mapper.Map<Metric>(data))
-                );
+            try
+            {
+                if (!maxTimestamp.HasValue)
+                    maxTimestamp = DateTime.UtcNow;
+                maxTimestamp = maxTimestamp.Value.ToUniversalTime();
+                IEnumerable<MetricData> innerMetric = await _dataFactory.GetTopMetricsByTimestamp(_settingsFactory.CreateData(_settings.Value), maxTimestamp.Value);
+                result = Ok(
+                    innerMetric.Select<MetricData, Metric>(data => _mapper.Map<Metric>(data))
+                    );
+            }
+            catch (System.Exception ex)
+            {
+                await WriteException(ex);
+                result = StatusCode(StatusCodes.Status500InternalServerError);
+            }
             return result;
         }
 
@@ -67,20 +76,28 @@ namespace LogAPI.Controllers
         [Authorize(Constants.POLICY_LOG_WRITE)]
         public async Task<IActionResult> Create([FromBody] Metric[] metrics)
         {
-            if (metrics != null && metrics.Length > 0)
+            try
             {
-                MetricData[] metricData = new MetricData[metrics.Length];
-                for (int i = 0; i < metrics.Length; i += 1)
+                if (metrics != null && metrics.Length > 0)
                 {
-                    metricData[i] = _mapper.Map<MetricData>(metrics[i]);
+                    MetricData[] metricData = new MetricData[metrics.Length];
+                    for (int i = 0; i < metrics.Length; i += 1)
+                    {
+                        metricData[i] = _mapper.Map<MetricData>(metrics[i]);
+                    }
+                    Saver saver = new Saver();
+                    await saver.Save(
+                        new TransactionHandler(_settingsFactory.CreateCore(_settings.Value)),
+                        (th) => Save(th, metricData)
+                        );
                 }
-                Saver saver = new Saver();
-                await saver.Save(
-                    new TransactionHandler(_settingsFactory.CreateCore(_settings.Value)),
-                    (th) => Save(th, metricData)
-                    );
+                return Ok();
             }
-            return Ok();
+            catch (System.Exception ex)
+            {
+                await WriteException(ex);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         [NonAction]

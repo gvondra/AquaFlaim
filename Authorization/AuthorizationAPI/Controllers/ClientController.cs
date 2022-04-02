@@ -27,11 +27,12 @@ namespace AuthorizationAPI.Controllers
         public ClientController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             LogAPI.IMetricService metricService,
+            LogAPI.IExceptionService exceptionService,
             IMapper mapper,
             IClientFactory clientFactory,
             IClientSaver clientSaver,
             IClientSecretProcessor clientSecretProcessor)
-            : base(settings, settingsFactory, metricService)
+            : base(settings, settingsFactory, metricService, exceptionService)
         {
             _mapper = mapper;
             _clientFactory = clientFactory;
@@ -62,7 +63,7 @@ namespace AuthorizationAPI.Controllers
             }
             catch (Exception ex)
             {
-                //todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
+                await WriteException(ex);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
             }
             finally
@@ -97,7 +98,7 @@ namespace AuthorizationAPI.Controllers
             }
             catch (Exception ex)
             {
-                //todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
+                await WriteException(ex);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
             }
             finally
@@ -110,7 +111,7 @@ namespace AuthorizationAPI.Controllers
         [HttpGet("/api/ClientCredentialSecret")]
         [Authorize(Constants.POLICY_CLIENT_EDIT)]
         [ProducesResponseType(typeof(string), 200)]
-        public IActionResult GetClientCredentialSecret()
+        public async Task<IActionResult> GetClientCredentialSecret()
         {
             DateTime start = DateTime.UtcNow;
             IActionResult result;
@@ -120,7 +121,7 @@ namespace AuthorizationAPI.Controllers
             }
             catch (Exception ex)
             {
-                //todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
+                await WriteException(ex);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
             }
             finally
@@ -174,7 +175,7 @@ namespace AuthorizationAPI.Controllers
             }
             catch (Exception ex)
             {
-                //todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
+                await WriteException(ex);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
             }
             finally
@@ -218,7 +219,7 @@ namespace AuthorizationAPI.Controllers
             }
             catch (Exception ex)
             {
-                //todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
+                await WriteException(ex);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
             }
             finally

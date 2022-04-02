@@ -18,13 +18,14 @@ namespace AuthorizationAPI.Controllers
 
         public JwksController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
-            LogAPI.IMetricService metricService)
-            : base(settings, settingsFactory, metricService)
+            LogAPI.IMetricService metricService,
+            LogAPI.IExceptionService exceptionService)
+            : base(settings, settingsFactory, metricService, exceptionService)
         { }
 
         [HttpGet]
         [ResponseCache(Location = ResponseCacheLocation.Any, Duration = 150)]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
             try
             {
@@ -38,8 +39,7 @@ namespace AuthorizationAPI.Controllers
             }
             catch (Exception ex)
             {
-                // todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = ex.Message });
             }
         }
     }

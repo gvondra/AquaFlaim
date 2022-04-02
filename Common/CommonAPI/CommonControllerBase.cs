@@ -13,10 +13,13 @@ namespace AquaFlaim.CommonAPI
     public abstract class CommonControllerBase : Controller
     {
         private readonly LogAPI.IMetricService _metricService;
+        private readonly LogAPI.IExceptionService _exceptionService;
 
-        protected CommonControllerBase(LogAPI.IMetricService metricService)
+        protected CommonControllerBase(LogAPI.IMetricService metricService,
+            LogAPI.IExceptionService exceptionService)
         {
             _metricService = metricService;
+            _exceptionService = exceptionService;
         }
 
         protected string GetCurrentUserReferenceId() 
@@ -47,6 +50,12 @@ namespace AquaFlaim.CommonAPI
             if (Response != null)
                 status = ((int)Response.StatusCode).ToString();
             await _metricService.Create(settings, eventCode, magnitude, status, data);
+        }
+
+        protected async Task WriteException(LogAPI.ISettings settings, Exception exception)
+        {
+            //exception.Data["RequestedURL"] = Request.
+            await _exceptionService.Create(settings, exception);
         }
     }
 }

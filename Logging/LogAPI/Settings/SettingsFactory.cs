@@ -19,5 +19,14 @@
                 CreateCore(settings)
                 );
         }
+
+        public AquaFlaim.Interface.Log.ISettings CreateLog(Settings settings, string token)
+        {
+            return new LogApiSettings
+            {
+                BaseAddress = settings.LogApiBaseAddress,
+                Token = token
+            };
+        }
     }
 }

@@ -26,10 +26,11 @@ namespace AuthorizationAPI.Controllers
         public UserController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             LogAPI.IMetricService metricService,
+            LogAPI.IExceptionService exceptionService,
             IMapper mapper,
             IUserFactory userFactory,
             IUserSaver userSaver)
-            : base(settings, settingsFactory, metricService)
+            : base(settings, settingsFactory, metricService, exceptionService)
         {
             _mapper = mapper;
             _userFactory = userFactory;
@@ -61,7 +62,7 @@ namespace AuthorizationAPI.Controllers
             }
             catch (Exception ex)
             {
-                //todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
+                await WriteException(ex);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
             }
             finally
@@ -97,7 +98,7 @@ namespace AuthorizationAPI.Controllers
             }
             catch (Exception ex)
             {
-                //todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
+                await WriteException(ex);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
             }
             finally
@@ -161,7 +162,7 @@ namespace AuthorizationAPI.Controllers
             }
             catch (Exception ex)
             {
-                //todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
+                await WriteException(ex);
                 result = StatusCode(StatusCodes.Status500InternalServerError);
             }
             finally

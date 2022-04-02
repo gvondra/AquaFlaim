@@ -31,12 +31,13 @@ namespace AuthorizationAPI.Controllers
         public TokenController(IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
             LogAPI.IMetricService metricService,
+            LogAPI.IExceptionService exceptionService,
             IClientFactory clientFactory,
             IUserFactory userFactory,
             IUserSaver userSaver,
             IEmailAddressFactory emailAddressFactory,
             IEmailAddressSaver emailAddressSaver)
-            : base(settings, settingsFactory, metricService)
+            : base(settings, settingsFactory, metricService, exceptionService)
         {
             _clientFactory = clientFactory;
             _userFactory = userFactory;
@@ -56,8 +57,7 @@ namespace AuthorizationAPI.Controllers
             }
             catch (Exception ex)
             {
-                //todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = ex.Message });
             }
         }
         
@@ -92,8 +92,7 @@ namespace AuthorizationAPI.Controllers
             }
             catch (Exception ex)
             {
-                //todo await LogException(ex, _exceptionService.Value, _settingsFactory, _settings.Value);
-                result = StatusCode(StatusCodes.Status500InternalServerError);
+                result = StatusCode(StatusCodes.Status500InternalServerError, new { Message = ex.Message });
             }
             return result;
         }

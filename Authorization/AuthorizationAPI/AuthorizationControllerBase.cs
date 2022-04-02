@@ -1,9 +1,10 @@
 ﻿using LogAPI = AquaFlaim.Interface.Log;
 using AquaFlaim.CommonAPI;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
 
 namespace AuthorizationAPI
 {
@@ -15,8 +16,9 @@ namespace AuthorizationAPI
         protected AuthorizationControllerBase(
             IOptions<Settings> settings,
             ISettingsFactory settingsFactory,
-            LogAPI.IMetricService metricService)
-            : base(metricService)
+            LogAPI.IMetricService metricService,
+            LogAPI.IExceptionService exceptionService)
+            : base(metricService, exceptionService)
         { 
             _settings = settings;
             _settingsFactory = settingsFactory;
@@ -24,5 +26,8 @@ namespace AuthorizationAPI
 
         protected Task WriteMetrics(string eventCode, double? magnitude, Dictionary<string, string> data = null)
             => base.WriteMetrics(_settingsFactory.CreateLog(_settings.Value, GetUserToken()), eventCode, magnitude, data);
+
+        protected Task WriteException(Exception exception)
+            => base.WriteException(_settingsFactory.CreateLog(_settings.Value, GetUserToken()), exception);
     }
 }
