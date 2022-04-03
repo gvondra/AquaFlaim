@@ -18,5 +18,7 @@ namespace AquaFlaim.CommonAPI
         public const string POLICY_ROLE_EDIT = "ROLE:EDIT";
         public const string POLICY_LOG_READ = "LOG:READ";
         public const string POLICY_LOG_WRITE = "LOG:WRITE";
+        public const string POLICY_FORM_TYPE_READ = "FORMTYPE:READ";
+        public const string POLICY_FORM_TYPE_EDIT = "FORMTYPE:EDIT";
     }
 }

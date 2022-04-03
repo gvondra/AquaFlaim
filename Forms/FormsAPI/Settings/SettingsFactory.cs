@@ -1,6 +1,6 @@
 ﻿using AquaFlaim.CommonAPI;
 
-namespace AuthorizationAPI
+namespace FormsAPI
 {
     public class SettingsFactory : ISettingsFactory
     {
@@ -11,7 +11,7 @@ namespace AuthorizationAPI
                 ConnectionString = settings.ConnectionString,
                 EnableDatabaseAccessToken = settings.EnableDatabaseAccessToken,
                 ConnectionStringUser = settings.ConnectionStringUser,
-                KeyVaultAddress = settings.KeyVaultAddress                
+                KeyVaultAddress = settings.KeyVaultAddress
             };
         }
 

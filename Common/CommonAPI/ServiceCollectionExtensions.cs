@@ -54,6 +54,8 @@ namespace AquaFlaim.CommonAPI
                 AddPolicy(o, Constants.POLICY_LOG_READ, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"], _additionalLogWritePolicies);
                 AddPolicy(o, Constants.POLICY_LOG_WRITE, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"], _additionalLogWritePolicies);
                 AddPolicy(o, Constants.POLICY_ROLE_EDIT, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"]);
+                AddPolicy(o, Constants.POLICY_FORM_TYPE_READ, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"]);
+                AddPolicy(o, Constants.POLICY_FORM_TYPE_EDIT, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"]);
                 AddPolicy(o, Constants.POLICY_USER_EDIT, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"]);
                 AddPolicy(o, Constants.POLICY_USER_READ, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"]);
             });
@@ -65,6 +67,8 @@ namespace AquaFlaim.CommonAPI
             Constants.POLICY_CLIENT_EDIT,
             Constants.POLICY_CLIENT_READ,
             Constants.POLICY_ROLE_EDIT,
+            Constants.POLICY_FORM_TYPE_READ,
+            Constants.POLICY_FORM_TYPE_EDIT,
             Constants.POLICY_USER_EDIT,
             Constants.POLICY_USER_READ
         };
