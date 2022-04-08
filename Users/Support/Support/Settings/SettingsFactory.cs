@@ -48,5 +48,23 @@ namespace AquaFlaim.User.Support
                 throw new ArgumentNullException("Access Token");
             return CreateLog(AccessToken.Token);
         }
+
+        public AquaFlaim.Interface.Forms.ISettings CreateForms()
+        {
+            if (string.IsNullOrEmpty(AccessToken.Token))
+                throw new ArgumentNullException("Access Token");
+            return CreateForms(AccessToken.Token);
+        }
+
+        public AquaFlaim.Interface.Forms.ISettings CreateForms(string token)
+        {
+            if (string.IsNullOrEmpty(token))
+                throw new ArgumentNullException(nameof(token));
+            return new FormsSettings()
+            {
+                BaseAddress = Settings.FormsApiBaseAddress,
+                Token = token
+            };
+        }
     }
 }

@@ -18,6 +18,9 @@
                 <MenuItem Header="_Home" Command="NavigationCommands.GoToPage" CommandParameter="NavigationPage/Home.xaml"/>
                 <MenuItem Header="_Google Login" Click="GoogleLoginMenuItem_Click"/>
                 <Separator/>
+                <MenuItem Header="Forms">
+                    <MenuItem Header="Types" Command="NavigationCommands.GoToPage" CommandParameter="Forms/Types.xaml"/>
+                </MenuItem>
                 <MenuItem Header="Authorization">
                     <MenuItem Header="Find User" Command="NavigationCommands.GoToPage" CommandParameter="Authorization/User.xaml"/>
                     <MenuItem Header="Clients" Command="NavigationCommands.GoToPage" CommandParameter="Authorization/Clients.xaml"/>
