@@ -9,6 +9,7 @@ namespace LogAPI
         {
             base.Load(builder);
             builder.RegisterModule(new AquaFlaim.Log.Data.LogDataModule());
+            builder.RegisterModule(new AquaFlaim.Interface.Log.InterfaceLogModule());
             builder.Register<IMapper>((context) => MapperConfiguration.CreateMapper());
             builder.RegisterType<SettingsFactory>().SingleInstance().As<ISettingsFactory>();    
         }
