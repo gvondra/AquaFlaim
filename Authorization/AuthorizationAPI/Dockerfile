@@ -8,10 +8,10 @@ COPY . .
 RUN dotnet nuget add source "/src/NugetPackages" -n "LocalPackages" --configfile "Authorization/AuthorizationAPI/nuget.config"
 RUN dotnet restore "Authorization/AuthorizationAPI/AuthorizationAPI.csproj" --configfile "Authorization/AuthorizationAPI/nuget.config"
 WORKDIR "/src/Authorization/AuthorizationAPI"
-RUN dotnet build "AccountAPI.csproj" --no-restore -c Release -o /app/build
+RUN dotnet build "AuthorizationAPI.csproj" --no-restore -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "AccountAPI.csproj" -c Release -o /app/publish
+RUN dotnet publish "AuthorizationAPI.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
