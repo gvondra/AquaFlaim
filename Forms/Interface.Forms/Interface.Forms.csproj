@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-	  <ImplicitUsings>disable</ImplicitUsings>
-	  <Nullable>disable</Nullable>
-	  <AssemblyName>AquaFlaim.Interface.Forms</AssemblyName>
-	  <RootNamespace>AquaFlaim.Interface.Forms</RootNamespace>
-	  <Authors>Greg Vondra</Authors>
-	  <Company />
-	  <Product>Aqua Flaim</Product>
-	  <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
-	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	  <Version>1.0.0-alpha.2</Version>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;netstandard2.0</TargetFrameworks>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<AssemblyName>AquaFlaim.Interface.Forms</AssemblyName>
+		<RootNamespace>AquaFlaim.Interface.Forms</RootNamespace>
+		<Authors>Greg Vondra</Authors>
+		<Company />
+		<Product>Aqua Flaim</Product>
+		<PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Version>1.0.0-alpha.3</Version>
+	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DebugType>none</DebugType>
@@ -25,7 +25,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Autofac" Version="6.3.0" />
+		<PackageReference Include="Autofac" Version="6.3.0" />
 		<PackageReference Include="BrassLoon.RestClient" Version="1.1.0" />
 	</ItemGroup>
 
