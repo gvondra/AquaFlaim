@@ -24,10 +24,18 @@ namespace AuthorizationAPI
             _settingsFactory = settingsFactory;
         }
 
-        protected Task WriteMetrics(string eventCode, double? magnitude, Dictionary<string, string> data = null)
-            => base.WriteMetrics(_settingsFactory.CreateLog(_settings.Value, GetUserToken()), eventCode, magnitude, data);
+        protected async Task WriteMetrics(string eventCode, double? magnitude, Dictionary<string, string> data = null)
+        {
+            if (!string.IsNullOrEmpty(_settings.Value.LogApiBaseAddress))
+                await base.WriteMetrics(_settingsFactory.CreateLog(_settings.Value, GetUserToken()), eventCode, magnitude, data);
+        }
 
-        protected Task WriteException(Exception exception)
-            => base.WriteException(_settingsFactory.CreateLog(_settings.Value, GetUserToken()), exception);
+        protected async Task WriteException(Exception exception)
+        {
+            if (!string.IsNullOrEmpty(_settings.Value.LogApiBaseAddress))
+                await base.WriteException(_settingsFactory.CreateLog(_settings.Value, GetUserToken()), exception);
+            else
+                Console.WriteLine(exception.ToString());
+        }
     }
 }
