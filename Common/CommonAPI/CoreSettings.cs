@@ -74,10 +74,13 @@ namespace AquaFlaim.CommonAPI
                     AccessToken token = await new DefaultAzureCredential(
                         new DefaultAzureCredentialOptions()
                         {
-                            ExcludeSharedTokenCacheCredential = true,
+                            ExcludeAzureCliCredential = false,
+                            ExcludeAzurePowerShellCredential = false,
+                            ExcludeSharedTokenCacheCredential = false,
                             ExcludeEnvironmentCredential = false,
-                            ExcludeVisualStudioCodeCredential = true,
-                            ExcludeVisualStudioCredential = true
+                            ExcludeManagedIdentityCredential = false,
+                            ExcludeVisualStudioCodeCredential = false,
+                            ExcludeVisualStudioCredential = false
                         })
                         .GetTokenAsync(context);
                     return token.Token;
