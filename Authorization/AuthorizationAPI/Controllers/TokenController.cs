@@ -50,15 +50,17 @@ namespace AuthorizationAPI.Controllers
         [Authorize(Constants.POLICY_TOKEN_CREATE)]
         public async Task<IActionResult> Create()
         {
-            try
-            {
-                IUser user = await GetUser();
-                return Ok(await CreateToken(user));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = ex.Message });
-            }
+            Console.WriteLine("Test console output");
+            return Ok(new { Message = "Test Outpu" });
+            //try
+            //{
+            //    IUser user = await GetUser();
+            //    return Ok(await CreateToken(user));
+            //}
+            //catch (Exception ex)
+            //{
+            //    return StatusCode(StatusCodes.Status500InternalServerError, new { Message = ex.Message });
+            //}
         }
         
         [HttpPost("ClientCredential")]
