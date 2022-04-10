@@ -75,7 +75,7 @@ namespace AquaFlaim.CommonAPI
                         new DefaultAzureCredentialOptions()
                         {
                             ExcludeSharedTokenCacheCredential = true,
-                            ExcludeEnvironmentCredential = true,
+                            ExcludeEnvironmentCredential = false,
                             ExcludeVisualStudioCodeCredential = true,
                             ExcludeVisualStudioCredential = true
                         })
