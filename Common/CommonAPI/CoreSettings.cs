@@ -70,7 +70,7 @@ namespace AquaFlaim.CommonAPI
             {
                 result = async () =>
                 {
-                    TokenRequestContext context = new TokenRequestContext(new[] { "https://database.windows.net//.default" });
+                    TokenRequestContext context = new TokenRequestContext(new[] { "https://database.windows.net/.default" });
                     AccessToken token = await new DefaultAzureCredential(
                         new DefaultAzureCredentialOptions()
                         {
