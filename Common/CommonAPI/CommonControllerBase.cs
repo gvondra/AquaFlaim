@@ -49,13 +49,26 @@ namespace AquaFlaim.CommonAPI
             string status = string.Empty;
             if (Response != null)
                 status = ((int)Response.StatusCode).ToString();
-            await _metricService.Create(settings, eventCode, magnitude, status, data);
+            try
+            {
+                await _metricService.Create(settings, eventCode, magnitude, status, data);
+            }
+            catch (Exception ex)
+            {
+                await WriteException(settings, ex);
+            }
         }
 
         protected async Task WriteException(LogAPI.ISettings settings, Exception exception)
         {
-            //exception.Data["RequestedURL"] = Request.
-            await _exceptionService.Create(settings, exception);
+            try
+            {
+                await _exceptionService.Create(settings, exception);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }
