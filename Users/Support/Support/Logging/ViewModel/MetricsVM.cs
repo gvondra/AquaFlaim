@@ -18,7 +18,7 @@ namespace AquaFlaim.User.Support.Logging.ViewModel
         private readonly List<object> _behaviors = new List<object>();
         private readonly ObservableCollection<MetricVM> _metrics = new ObservableCollection<MetricVM>();
 
-        private string _maxTimestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
+        private string _maxTimestamp = DateTime.Now.AddMinutes(1).ToString("yyyy-MM-dd HH:mm");
 
         public string MaxTimestamp
         {
