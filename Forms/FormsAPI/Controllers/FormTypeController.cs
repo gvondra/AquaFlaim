@@ -119,6 +119,20 @@ namespace FormsAPI.Controllers
             return formType;
         }
 
+        [NonAction]
+        private void UpdateOrder(FormType form)
+        {
+            if (form.Sections != null)
+            {
+                short order = 0;
+                foreach (FormSectionType section in form.Sections)
+                {
+                    section.Order = order;
+                    order += 1;
+                }
+            }
+        }
+
         [HttpPost()]
         [ProducesResponseType(typeof(FormType), 200)]
         [Authorize(Constants.POLICY_FORM_TYPE_READ)]
@@ -136,6 +150,7 @@ namespace FormsAPI.Controllers
                     result = BadRequest("Missing question code value(s)");
                 if (result == null)
                 {
+                    UpdateOrder(formType);
                     IFormType innerFormType = _formTypeFactory.Create();
                     IMapper mapper = MapperConfiguration.CreateMapper();
                     mapper.Map(formType, innerFormType);
@@ -199,6 +214,7 @@ namespace FormsAPI.Controllers
                         result = NotFound();
                     else
                     {
+                        UpdateOrder(formType);
                         List<IFormSectionType> innerSections = (await innerFormType.GetFormSections(settings)).ToList();
                         List<IFormQuestionType> innerQuestions;
                         IMapper mapper = MapperConfiguration.CreateMapper();
