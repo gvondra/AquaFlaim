@@ -14,6 +14,7 @@ namespace AquaFlaim.Forms.Core
         {
             base.Load(builder);
             builder.RegisterType<FormTypeFactory>().As<IFormTypeFactory>();
+            builder.RegisterType<FormTypeSaver>().As<IFormTypeSaver>();
         }
     }
 }
