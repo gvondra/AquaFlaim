@@ -105,7 +105,7 @@ namespace FormsAPI.Controllers
         private async Task<FormType> MapFormType(ISettings settings, IMapper mapper, IFormType innerFormType)
         {
             FormType formType = mapper.Map<FormType>(innerFormType);
-            formType.Sections = new List<FormSectionType>();            
+            formType.Sections = new List<FormSectionType>();
             foreach (IFormSectionType innerSection in await innerFormType.GetFormSections(settings))
             {
                 FormSectionType formSectionType = mapper.Map<FormSectionType>(innerSection);
@@ -159,7 +159,7 @@ namespace FormsAPI.Controllers
                     }
                     ISettings settings = _settingsFactory.CreateCore(_settings.Value);
                     await _formTypeSaver.Create(settings, innerFormType);
-                    result = Ok(MapFormType(settings, mapper, innerFormType));
+                    result = Ok(await MapFormType(settings, mapper, innerFormType));
                 }
             }
             catch (Exception ex)
@@ -238,8 +238,8 @@ namespace FormsAPI.Controllers
                                 }
                             }
                         }
-                        await _formTypeSaver.Create(settings, innerFormType);
-                        result = Ok(MapFormType(settings, mapper, innerFormType));
+                        await _formTypeSaver.Update(settings, innerFormType);
+                        result = Ok(await MapFormType(settings, mapper, innerFormType));
                     }
                 }
             }
