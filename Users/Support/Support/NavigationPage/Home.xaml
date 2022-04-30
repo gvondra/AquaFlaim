@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:AquaFlaim.User.Support.NavigationPage"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Home" Style="{StaticResource DefaultPageStyle}">
+      Title="Aqua Flaim" Style="{StaticResource DefaultPageStyle}">
     <Page.Resources>
         <Style x:Key="FlowDocumentStyle" TargetType="FlowDocument">
             <Setter Property="FontFamily" Value="{StaticResource DefaultFont}"/>

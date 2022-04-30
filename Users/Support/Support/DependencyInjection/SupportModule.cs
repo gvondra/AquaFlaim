@@ -13,6 +13,7 @@ namespace AquaFlaim.User.Support.DependencyInjection
         {
             base.Load(builder);
             builder.RegisterType<SettingsFactory>().SingleInstance().As<ISettingsFactory>();
+            builder.RegisterType<Forms.ViewModel.TypeLoader>();
         }
     }
 }

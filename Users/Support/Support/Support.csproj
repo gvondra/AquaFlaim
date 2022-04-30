@@ -120,9 +120,16 @@
     <Compile Include="Authorization\ViewModel\FindUserVM.cs" />
     <Compile Include="DependencyInjection\ContainerFactory.cs" />
     <Compile Include="DependencyInjection\SupportModule.cs" />
+    <Compile Include="Forms\Type.xaml.cs">
+      <DependentUpon>Type.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Types.xaml.cs">
       <DependentUpon>Types.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ViewModel\TypeLoader.cs" />
+    <Compile Include="Forms\ViewModel\TypesVM.cs" />
+    <Compile Include="Forms\ViewModel\TypeValidator.cs" />
+    <Compile Include="Forms\ViewModel\TypeVM.cs" />
     <Compile Include="Logging\Metrics.xaml.cs">
       <DependentUpon>Metrics.xaml</DependentUpon>
     </Compile>
@@ -154,6 +161,10 @@
     <Page Include="ErrorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Forms\Type.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\Types.xaml">
       <SubType>Designer</SubType>
