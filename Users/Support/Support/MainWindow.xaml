@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AquaFlaim.User.Support"
         mc:Ignorable="d"
-        Title="Aqua Flaim" Style="{StaticResource DefaultWindowStyle}">
+        Title="{Binding ElementName=navigationFrame, Path=Content.Title}" Style="{StaticResource DefaultWindowStyle}">
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Close"
                         Executed="CloseCommandBinding_Executed"/>
