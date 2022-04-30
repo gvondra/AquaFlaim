@@ -1,5 +1,6 @@
 ﻿using AquaFlaim.Interface.Forms;
 using AquaFlaim.Interface.Forms.Models;
+using AquaFlaim.User.Support.Forms.Controls;
 using AquaFlaim.User.Support.Forms.ViewModel;
 using Autofac;
 using System;
@@ -84,6 +85,62 @@ namespace AquaFlaim.User.Support.Forms
             {
                 await update;
                 MessageBox.Show(Window.GetWindow(this), "Update Complete", "Save", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                ErrorWindow.Open(ex, Window.GetWindow(this));
+            }
+        }
+
+        private void AddSection_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                FormSectionType sectionType = new FormSectionType() { Title = "New Section" };
+                TypeVM.InnerFormType.Sections.Add(sectionType);
+                TypeVM.Sections.Add(new SectionTypeVM(sectionType));
+            }
+            catch (Exception ex)
+            {
+                ErrorWindow.Open(ex, Window.GetWindow(this));
+            }
+        }
+
+        private void SectionType_MoveSectionUp(object sender)
+        {
+            try
+            {
+                SectionTypeVM sectionTypeVM = (SectionTypeVM)((SectionType)sender).DataContext;
+                int currentIndex = TypeVM.Sections.IndexOf(sectionTypeVM);
+                if (currentIndex > 0)
+                {
+                    FormSectionType formSectionType = TypeVM.InnerFormType.Sections[currentIndex];
+                    TypeVM.Sections.RemoveAt(currentIndex);
+                    TypeVM.Sections.Insert(currentIndex - 1, sectionTypeVM);
+                    TypeVM.InnerFormType.Sections.RemoveAt(currentIndex);
+                    TypeVM.InnerFormType.Sections.Insert(currentIndex - 1, formSectionType);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorWindow.Open(ex, Window.GetWindow(this));
+            }
+        }
+
+        private void SectionType_MoveSectionDown(object sender)
+        {
+            try
+            {
+                SectionTypeVM sectionTypeVM = (SectionTypeVM)((SectionType)sender).DataContext;
+                int currentIndex = TypeVM.Sections.IndexOf(sectionTypeVM);
+                if (currentIndex < TypeVM.Sections.Count - 1)
+                {
+                    FormSectionType formSectionType = TypeVM.InnerFormType.Sections[currentIndex];
+                    TypeVM.Sections.RemoveAt(currentIndex);
+                    TypeVM.Sections.Insert(currentIndex + 1, sectionTypeVM);
+                    TypeVM.InnerFormType.Sections.RemoveAt(currentIndex);
+                    TypeVM.InnerFormType.Sections.Insert(currentIndex + 1, formSectionType);
+                }
             }
             catch (Exception ex)
             {

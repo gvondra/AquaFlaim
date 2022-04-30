@@ -3,7 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:AquaFlaim.User.Support.Forms"
+      xmlns:local="clr-namespace:AquaFlaim.User.Support.Forms" 
+      xmlns:ctrl="clr-namespace:AquaFlaim.User.Support.Forms.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Form Type" Style="{StaticResource DefaultPageStyle}">
@@ -34,12 +35,29 @@
             <TextBlock Grid.Column="0" Grid.Row="1">Title: </TextBlock>
             <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Title, ValidatesOnDataErrors=True}"/>
         </Grid>
-        <StackPanel DockPanel.Dock="Right" Margin="5">
+        <StackPanel DockPanel.Dock="Right" Margin="5,0,25,0">
             <TextBlock>
-                <Hyperlink Click="Save_Click">
-                    <TextBlock>Save</TextBlock>
-                </Hyperlink>
+                <Hyperlink Click="Save_Click">Save</Hyperlink>
+            </TextBlock>
+            <TextBlock>
+                <Hyperlink Click="AddSection_Click">Add Section</Hyperlink>
             </TextBlock>
         </StackPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Visible">
+            <ItemsControl ItemsSource="{Binding Sections}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ctrl:SectionType Padding="0,0,0,10" BorderBrush="DarkGray" BorderThickness="1" 
+                                          MoveSectionUp="SectionType_MoveSectionUp"
+                                          MoveSectionDown="SectionType_MoveSectionDown"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
     </DockPanel>
 </Page>

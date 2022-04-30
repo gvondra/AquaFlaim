@@ -1,4 +1,5 @@
-﻿using AquaFlaim.Interface.Forms.Models;
+﻿using AquaFlaim.Interface.Forms;
+using AquaFlaim.Interface.Forms.Models;
 using AquaFlaim.User.Support.Forms.ViewModel;
 using Autofac;
 using System;
@@ -77,9 +78,31 @@ namespace AquaFlaim.User.Support.Forms
                 ListView listView = (ListView)sender;
                 if (listView.SelectedItem != null)
                 {
-                    Type typePage = new Type((TypeVM)listView.SelectedValue);
-                    NavigationService.Navigate(typePage);
+                    using (ILifetimeScope scope = DependencyInjection.ContainerFactory.Container.BeginLifetimeScope())
+                    {
+                        IFormTypeService formTypeService = scope.Resolve<IFormTypeService>();
+                        ISettingsFactory settingsFactory = scope.Resolve<ISettingsFactory>();
+                        int formTypeId = ((TypeVM)listView.SelectedItem).FormTypeId.Value;
+                        Task.Run(async () =>
+                        {
+                            FormType formType = await formTypeService.Get(settingsFactory.CreateForms(),formTypeId);
+                            return new TypeVM(formType);
+                        }).ContinueWith(NavigateToTypeCallback, null, TaskScheduler.FromCurrentSynchronizationContext());
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                ErrorWindow.Open(ex, Window.GetWindow(this));
+            }
+        }
+
+        private async Task NavigateToTypeCallback(Task<TypeVM> loadType, object state)
+        {
+            try
+            {
+                Type typePage = new Type(await loadType);
+                NavigationService.Navigate(typePage);
             }
             catch (Exception ex)
             {
