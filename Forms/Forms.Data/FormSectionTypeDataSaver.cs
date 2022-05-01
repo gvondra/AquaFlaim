@@ -39,7 +39,7 @@ namespace AquaFlaim.Forms.Data
                     timestamp.Direction = ParameterDirection.Output;
                     command.Parameters.Add(timestamp);
 
-                    DataUtil.AddParameter(_providerFactory, command.Parameters, "formTypeId", DbType.Int32, formSectionTypeData.FormTypeId);
+                    DataUtil.AddParameter(_providerFactory, command.Parameters, "formTypeId", DbType.Int32, DataUtil.GetParameterValue(formSectionTypeData.FormTypeId));
                     AddCommonParameters(command, formSectionTypeData);
 
                     await command.ExecuteNonQueryAsync();
@@ -65,7 +65,7 @@ namespace AquaFlaim.Forms.Data
                     timestamp.Direction = ParameterDirection.Output;
                     command.Parameters.Add(timestamp);
 
-                    DataUtil.AddParameter(_providerFactory, command.Parameters, "id", DbType.Int32, formSectionTypeData.FormSectionTypeId);
+                    DataUtil.AddParameter(_providerFactory, command.Parameters, "id", DbType.Int32, DataUtil.GetParameterValue(formSectionTypeData.FormSectionTypeId));
                     AddCommonParameters(command, formSectionTypeData);
 
                     await command.ExecuteNonQueryAsync();
@@ -76,9 +76,9 @@ namespace AquaFlaim.Forms.Data
 
         private void AddCommonParameters(DbCommand command, FormSectionTypeData formSectionTypeData)
         {
-            DataUtil.AddParameter(_providerFactory, command.Parameters, "title", DbType.AnsiString, formSectionTypeData.Title);
-            DataUtil.AddParameter(_providerFactory, command.Parameters, "order", DbType.Int16, formSectionTypeData.Order);
-            DataUtil.AddParameter(_providerFactory, command.Parameters, "hidden", DbType.Boolean, formSectionTypeData.Hidden);
+            DataUtil.AddParameter(_providerFactory, command.Parameters, "title", DbType.AnsiString, DataUtil.GetParameterValue(formSectionTypeData.Title));
+            DataUtil.AddParameter(_providerFactory, command.Parameters, "order", DbType.Int16, DataUtil.GetParameterValue(formSectionTypeData.Order));
+            DataUtil.AddParameter(_providerFactory, command.Parameters, "hidden", DbType.Boolean, DataUtil.GetParameterValue(formSectionTypeData.Hidden));
         }
     }
 }

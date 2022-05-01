@@ -39,7 +39,7 @@ namespace AquaFlaim.Forms.Data
                     timestamp.Direction = ParameterDirection.Output;
                     command.Parameters.Add(timestamp);
 
-                    DataUtil.AddParameter(_providerFactory, command.Parameters, "formTypeId", DbType.Int32, formQuestionTypeData.FormTypeId);
+                    DataUtil.AddParameter(_providerFactory, command.Parameters, "formTypeId", DbType.Int32, DataUtil.GetParameterValue(formQuestionTypeData.FormTypeId));
                     AddCommonParameters(command, formQuestionTypeData);
 
                     await command.ExecuteNonQueryAsync();
@@ -65,7 +65,7 @@ namespace AquaFlaim.Forms.Data
                     timestamp.Direction = ParameterDirection.Output;
                     command.Parameters.Add(timestamp);
 
-                    DataUtil.AddParameter(_providerFactory, command.Parameters, "id", DbType.Int32, formQuestionTypeData.FormQuestionTypeId);
+                    DataUtil.AddParameter(_providerFactory, command.Parameters, "id", DbType.Int32, DataUtil.GetParameterValue(formQuestionTypeData.FormQuestionTypeId));
                     AddCommonParameters(command, formQuestionTypeData);
 
                     await command.ExecuteNonQueryAsync();
@@ -76,16 +76,16 @@ namespace AquaFlaim.Forms.Data
 
         private void AddCommonParameters(DbCommand command, FormQuestionTypeData formQuestionTypeData)
         {
-            DataUtil.AddParameter(_providerFactory, command.Parameters, "formSectionTypeId", DbType.Int32, formQuestionTypeData.FormSectionTypeId);
-            DataUtil.AddParameter(_providerFactory, command.Parameters, "code", DbType.AnsiString, formQuestionTypeData.Code);
-            DataUtil.AddParameter(_providerFactory, command.Parameters, "text", DbType.AnsiString, formQuestionTypeData.Text);
-            DataUtil.AddParameter(_providerFactory, command.Parameters, "responseType", DbType.Int16, formQuestionTypeData.ResponseType);
-            DataUtil.AddParameter(_providerFactory, command.Parameters, "responseList", DbType.AnsiString, formQuestionTypeData.ResponseList);
-            DataUtil.AddParameter(_providerFactory, command.Parameters, "responseMaxLength", DbType.Int16, formQuestionTypeData.ResponseMaxLength);
-            DataUtil.AddParameter(_providerFactory, command.Parameters, "isRequired", DbType.Boolean, formQuestionTypeData.IsRequired);
-            DataUtil.AddParameter(_providerFactory, command.Parameters, "responseValidationExpression", DbType.AnsiString, formQuestionTypeData.ResponseValidationExpression);
-            DataUtil.AddParameter(_providerFactory, command.Parameters, "hidden", DbType.Boolean, formQuestionTypeData.Hidden);
-            DataUtil.AddParameter(_providerFactory, command.Parameters, "order", DbType.Int16, formQuestionTypeData.Order);
+            DataUtil.AddParameter(_providerFactory, command.Parameters, "formSectionTypeId", DbType.Int32, DataUtil.GetParameterValue(formQuestionTypeData.FormSectionTypeId));
+            DataUtil.AddParameter(_providerFactory, command.Parameters, "code", DbType.AnsiString, DataUtil.GetParameterValue(formQuestionTypeData.Code));
+            DataUtil.AddParameter(_providerFactory, command.Parameters, "text", DbType.AnsiString, DataUtil.GetParameterValue(formQuestionTypeData.Text));
+            DataUtil.AddParameter(_providerFactory, command.Parameters, "responseType", DbType.Int16, DataUtil.GetParameterValue(formQuestionTypeData.ResponseType));
+            DataUtil.AddParameter(_providerFactory, command.Parameters, "responseList", DbType.AnsiString, DataUtil.GetParameterValue(formQuestionTypeData.ResponseList));
+            DataUtil.AddParameter(_providerFactory, command.Parameters, "responseMaxLength", DbType.Int16, DataUtil.GetParameterValue(formQuestionTypeData.ResponseMaxLength));
+            DataUtil.AddParameter(_providerFactory, command.Parameters, "isRequired", DbType.Boolean, DataUtil.GetParameterValue(formQuestionTypeData.IsRequired));
+            DataUtil.AddParameter(_providerFactory, command.Parameters, "responseValidationExpression", DbType.AnsiString, DataUtil.GetParameterValue(formQuestionTypeData.ResponseValidationExpression));
+            DataUtil.AddParameter(_providerFactory, command.Parameters, "hidden", DbType.Boolean, DataUtil.GetParameterValue(formQuestionTypeData.Hidden));
+            DataUtil.AddParameter(_providerFactory, command.Parameters, "order", DbType.Int16, DataUtil.GetParameterValue(formQuestionTypeData.Order));
         }
     }
 }

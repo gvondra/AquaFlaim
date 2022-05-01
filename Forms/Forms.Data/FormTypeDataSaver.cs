@@ -39,7 +39,7 @@ namespace AquaFlaim.Forms.Data
                     timestamp.Direction = ParameterDirection.Output;
                     command.Parameters.Add(timestamp);
 
-                    DataUtil.AddParameter(_providerFactory, command.Parameters, "title", DbType.AnsiString, formTypeData.Title);
+                    DataUtil.AddParameter(_providerFactory, command.Parameters, "title", DbType.AnsiString, DataUtil.GetParameterValue(formTypeData.Title));
 
                     await command.ExecuteNonQueryAsync();
                     formTypeData.FormTypeId = (int)id.Value;
@@ -64,8 +64,8 @@ namespace AquaFlaim.Forms.Data
                     timestamp.Direction = ParameterDirection.Output;
                     command.Parameters.Add(timestamp);
 
-                    DataUtil.AddParameter(_providerFactory, command.Parameters, "id", DbType.Int32, formTypeData.FormTypeId);
-                    DataUtil.AddParameter(_providerFactory, command.Parameters, "title", DbType.AnsiString, formTypeData.Title);
+                    DataUtil.AddParameter(_providerFactory, command.Parameters, "id", DbType.Int32, DataUtil.GetParameterValue(formTypeData.FormTypeId));
+                    DataUtil.AddParameter(_providerFactory, command.Parameters, "title", DbType.AnsiString, DataUtil.GetParameterValue(formTypeData.Title));
 
                     await command.ExecuteNonQueryAsync();
                     formTypeData.UpdateTimestamp = (DateTime)timestamp.Value;
