@@ -96,5 +96,31 @@ namespace AquaFlaim.Forms.Core
             _questions = null;
             _newQuestions = null;
         }
+
+        public void RemoveQuestionType(IFormQuestionType questionType)
+        {
+            if (_questions != null && _questions.Contains(questionType))
+                _questions.Remove(questionType);
+            else if (_newQuestions != null && _newQuestions.Contains(questionType))
+                _newQuestions.Remove(questionType);
+        }
+
+        public IFormQuestionType SetSection(IFormQuestionType formQuestionType)
+        {
+            if (formQuestionType.IsNew)
+            {
+                if (_newQuestions == null)
+                    _newQuestions = new List<IFormQuestionType>();
+                _newQuestions.Add(formQuestionType);
+            }
+            else
+            {
+                formQuestionType = formQuestionType.CreateWithNewSection(this);
+                if (_questions == null)
+                    _questions = new List<IFormQuestionType>();
+                _questions.Add(formQuestionType);
+            }
+            return formQuestionType;
+        }
     }
 }

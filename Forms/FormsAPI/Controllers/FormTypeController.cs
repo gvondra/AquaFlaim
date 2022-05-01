@@ -124,11 +124,19 @@ namespace FormsAPI.Controllers
         {
             if (form.Sections != null)
             {
-                short order = 0;
+                short order = 0;                
                 foreach (FormSectionType section in form.Sections)
                 {
                     section.Order = order;
                     order += 1;
+                    if (section.Questions != null)
+                    {
+                        foreach (FormQuestionType question in section.Questions)
+                        {
+                            question.Order = order;
+                            order += 1;
+                        }
+                    }
                 }
             }
         }
@@ -216,6 +224,7 @@ namespace FormsAPI.Controllers
                     {
                         UpdateOrder(formType);
                         List<IFormSectionType> innerSections = (await innerFormType.GetFormSections(settings)).ToList();
+                        List<IFormQuestionType> allInnerQuestions = (await innerFormType.GetFormQuestions(settings)).ToList();
                         List<IFormQuestionType> innerQuestions;
                         IMapper mapper = MapperConfiguration.CreateMapper();
                         mapper.Map(formType, innerFormType);
@@ -245,9 +254,17 @@ namespace FormsAPI.Controllers
                                         if (questionType.FormQuestionTypeId.HasValue)
                                             innerQuestion = innerQuestions.FirstOrDefault(q => q.FormQuestionTypeId == questionType.FormQuestionTypeId.Value);
                                         if (innerQuestion == null)
+                                            innerQuestion = allInnerQuestions.FirstOrDefault(q => q.FormQuestionTypeId == questionType.FormQuestionTypeId.Value);
+                                        if (innerQuestion == null)
                                         {
                                             innerQuestion = innerSection.CreateQuestionType(questionType.Code);
                                             innerSection.AddQuestionType(innerQuestion);
+                                        }
+                                        else if (innerQuestion.FormSectionTypeId != innerSection.FormSectionTypeId)
+                                        {
+                                            allInnerQuestions.Remove(innerQuestion);
+                                            innerQuestion = ChangeQuestionTypeSection(innerQuestion, innerSections.First(s => s.FormSectionTypeId == innerQuestion.FormSectionTypeId), innerSection);
+                                            allInnerQuestions.Add(innerQuestion);
                                         }
                                         mapper.Map(questionType, innerQuestion);
                                     }
@@ -269,6 +286,13 @@ namespace FormsAPI.Controllers
                 _ = WriteMetrics("update-form-type", DateTime.UtcNow.Subtract(start).TotalSeconds);
             }
             return result;
+        }
+
+        [NonAction]
+        private IFormQuestionType ChangeQuestionTypeSection(IFormQuestionType questionType, IFormSectionType sourceSectionType, IFormSectionType destinationSectionType)
+        {
+            sourceSectionType.RemoveQuestionType(questionType);
+            return destinationSectionType.SetSection(questionType);
         }
     }
 }

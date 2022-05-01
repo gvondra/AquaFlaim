@@ -22,10 +22,16 @@ namespace AquaFlaim.Forms.Core
         public FormQuestionType(FormQuestionTypeData data,
             IFormQuestionTypeDataSaver dataSaver,
             IFormSectionType formSectionType)
+            : this(data, dataSaver)
         {
-            _data = data;   
-            _dataSaver = dataSaver;
             _sectionType = formSectionType;
+        }
+
+        public FormQuestionType(FormQuestionTypeData data,
+            IFormQuestionTypeDataSaver dataSaver)
+        {
+            _data = data;
+            _dataSaver = dataSaver;
         }
 
         public int FormQuestionTypeId => _data.FormQuestionTypeId;
@@ -65,8 +71,12 @@ namespace AquaFlaim.Forms.Core
 
         public DateTime UpdateTimestamp => _data.UpdateTimestamp;
 
+        public bool IsNew => _data.Manager.GetState(_data) == BrassLoon.DataClient.DataState.New;
+
         public Task Create(ITransactionHandler transactionHandler)
         {
+            if (_sectionType == null)
+                throw new ApplicationException("Unable to create question type without associated section type");
             FormTypeId = _sectionType.FormTypeId;
             FormSectionTypeId = _sectionType.FormSectionTypeId;
             return _dataSaver.Create(transactionHandler, _data);
@@ -75,5 +85,11 @@ namespace AquaFlaim.Forms.Core
 
         public Task Update(ITransactionHandler transactionHandler)
             => _dataSaver.Update(transactionHandler, _data);
+
+        public IFormQuestionType CreateWithNewSection(IFormSectionType sectionType)
+        {
+            _data.FormSectionTypeId = sectionType.FormSectionTypeId;
+            return new FormQuestionType(_data, _dataSaver, sectionType);
+        }
     }
 }

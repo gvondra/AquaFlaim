@@ -15,6 +15,7 @@ namespace AquaFlaim.Forms.Framework
         Task<IEnumerable<IFormType>> GetAll(ISettings settings);
         Task<IFormType> Get(ISettings settings, int id);
         Task<IEnumerable<IFormQuestionType>> GetFormQuestionsTypesByFormSectionType(ISettings settings, IFormSectionType formSectionType);
+        Task<IEnumerable<IFormQuestionType>> GetFormQuestionsTypesByFormType(ISettings settings, IFormType formType);
         Task<IEnumerable<IFormSectionType>> GetFormSectionsTypesByFormType(ISettings settings, IFormType formType);
     }
 }

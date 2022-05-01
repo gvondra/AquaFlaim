@@ -53,6 +53,11 @@ namespace AquaFlaim.Forms.Core
             return _factory.CreateSection(this);
         }
 
+        public Task<IEnumerable<IFormQuestionType>> GetFormQuestions(ISettings settings)
+        {
+            return _factory.GetFormQuestionsTypesByFormType(settings, this);
+        }
+
         public async Task<IEnumerable<IFormSectionType>> GetFormSections(ISettings settings)
         {
             if (_sections == null)

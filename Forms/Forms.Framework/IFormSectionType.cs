@@ -22,5 +22,12 @@ namespace AquaFlaim.Forms.Framework
         IFormQuestionType CreateQuestionType(string code); 
         Task<IEnumerable<IFormQuestionType>> GetFormQuestionTypes(ISettings settings);
         void AddQuestionType(IFormQuestionType questionType);
+        // note this doesn't delete the question
+        // it just separates it from this section
+        // all question must belong to a section, 
+        // so after remove the section, and new section 
+        // must be assigned
+        void RemoveQuestionType(IFormQuestionType questionType);
+        IFormQuestionType SetSection(IFormQuestionType formQuestionType);
     }
 }

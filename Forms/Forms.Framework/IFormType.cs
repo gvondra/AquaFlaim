@@ -17,6 +17,7 @@ namespace AquaFlaim.Forms.Framework
         Task Create(ITransactionHandler transactionHandler);
         Task Update(ITransactionHandler transactionHandler);
         Task<IEnumerable<IFormSectionType>> GetFormSections(ISettings settings);        
+        Task<IEnumerable<IFormQuestionType>> GetFormQuestions(ISettings settings);
         IFormSectionType CreateSectionType();
         void AddSectionType(IFormSectionType sectionType);
     }

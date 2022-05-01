@@ -80,6 +80,7 @@
     <Build Include="Stored Procedures\frm.CreateFormQuestionType.sql" />
     <Build Include="Stored Procedures\frm.GetFormQuestionType_by_FormSectionTypeId.sql" />
     <Build Include="Stored Procedures\frm.UpdateFormQuestionType.sql" />
+    <Build Include="Stored Procedures\frm.GetFormQuestionType_by_FormTypeId.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LocalSqlSchemaCompare.scmp" />

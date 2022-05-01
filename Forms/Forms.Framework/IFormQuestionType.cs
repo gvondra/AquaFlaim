@@ -22,10 +22,12 @@ namespace AquaFlaim.Forms.Framework
         string ResponseValidationExpression { get; set; }
         bool Hidden { get; set; }
         short Order { get; set; }
+        bool IsNew { get; }
         DateTime CreateTimestamp { get; }
         DateTime UpdateTimestamp { get; }
 
         Task Create(ITransactionHandler transactionHandler);
         Task Update(ITransactionHandler transactionHandler);
+        IFormQuestionType CreateWithNewSection(IFormSectionType sectionType);
     }
 }

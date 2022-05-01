@@ -35,5 +35,21 @@ namespace AquaFlaim.Forms.Data
                 parameters
                 );
         }
+
+        public Task<IEnumerable<FormQuestionTypeData>> GetByFormTypeId(ISqlSettings settings, int formTypeId)
+        {
+            List<IDataParameter> parameters = new List<IDataParameter>
+            {
+                DataUtil.CreateParameter(_providerFactory, "formTypeId", DbType.Int32, formTypeId)
+            };
+            return _genericDataFactory.GetData(
+                settings,
+                _providerFactory,
+                "[frm].[GetFormQuestionType_by_FormTypeId]",
+                () => new FormQuestionTypeData(),
+                DataUtil.AssignDataStateManager,
+                parameters
+                );
+        }
     }
 }

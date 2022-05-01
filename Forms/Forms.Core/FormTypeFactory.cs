@@ -36,6 +36,7 @@ namespace AquaFlaim.Forms.Core
 
         private FormType Create(FormTypeData data) => new FormType(data, _dataSaver, this);
         private FormQuestionType Create(FormQuestionTypeData data, IFormSectionType sectionType) => new FormQuestionType(data, _questionTypeDataSaver, sectionType);
+        private FormQuestionType Create(FormQuestionTypeData data) => new FormQuestionType(data, _questionTypeDataSaver);
         private FormSectionType Create(FormSectionTypeData data, IFormType formType) => new FormSectionType(data, _sectionTypeDataSaver, formType, this);
 
         public IFormType Create() => Create(new FormTypeData());
@@ -75,6 +76,12 @@ namespace AquaFlaim.Forms.Core
         {
             return (await _sectionTypeDataFactory.GetByFormTypeId(new DataSettings(settings), formType.FormTypeId))
                 .Select<FormSectionTypeData, IFormSectionType>(data => Create(data, formType));
+        }
+
+        public async Task<IEnumerable<IFormQuestionType>> GetFormQuestionsTypesByFormType(ISettings settings, IFormType formType)
+        {
+            return (await _questionTypeDataFactory.GetByFormTypeId(new DataSettings(settings), formType.FormTypeId))
+                .Select<FormQuestionTypeData, IFormQuestionType>(data => Create(data));
         }
     }
 }
