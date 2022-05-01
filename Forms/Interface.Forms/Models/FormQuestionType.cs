@@ -14,7 +14,7 @@ namespace AquaFlaim.Interface.Forms.Models
         public string Code { get; set; }
         public string Text { get; set; }
         public short? ResponseType { get; set; }
-        public string ResponseList { get; set; }
+        public List<string> ResponseList { get; set; }
         public short? ResponseMaxLength { get; set; }
         public bool? IsRequired { get; set; }
         public string ResponseValidationExpression { get; set; }

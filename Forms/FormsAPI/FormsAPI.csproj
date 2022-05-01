@@ -23,7 +23,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="AquaFlaim.Interface.Forms" Version="1.0.0-alpha.3" />
+		<PackageReference Include="AquaFlaim.Interface.Forms" Version="1.0.0-alpha.4" />
 		<PackageReference Include="AquaFlaim.Interface.Log" Version="1.0.0-alpha.3" />
 		<PackageReference Include="Autofac" Version="6.3.0" />
 		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
@@ -31,7 +31,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.3" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
 	</ItemGroup>
 
 	<ItemGroup>
