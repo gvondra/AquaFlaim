@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:AquaFlaim.User.Support.Forms.Controls"
+             xmlns:ctrl="clr-namespace:AquaFlaim.User.Support.Forms.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -14,9 +14,20 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <ContextMenu x:Key="questionMenu" x:Name="questionMenu">
+            <MenuItem Header="Change Section">
+                <ItemsControl ItemsSource="{Binding Sections}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <MenuItem Header="{Binding Title}" Click="MenuItem_Click" CommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>                    
+                </ItemsControl>
+            </MenuItem>
+        </ContextMenu>        
     </UserControl.Resources>
     <DockPanel>
-        <Grid Background="PaleGreen">
+        <Grid DockPanel.Dock="Top" Background="PaleGreen">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -39,6 +50,30 @@
                      />
             <TextBlock Grid.Column="2" Grid.Row="1">Is Hidden:</TextBlock>
             <CheckBox Grid.Column="3" Grid.Row="1" IsChecked="{Binding Hidden, ValidatesOnDataErrors=True}"/>
-        </Grid>        
+        </Grid>
+        <WrapPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBlock HorizontalAlignment="Right">
+                <Hyperlink Click="AddQuestion_Click">Add Question</Hyperlink>
+            </TextBlock>
+        </WrapPanel>
+        <ItemsControl ItemsSource="{Binding Questions}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="DarkGray" BorderThickness="0,1,0,0" >
+                        <ctrl:QuestionType Padding="0,5,0,15" 
+                                           MoveQuestionUp="QuestionType_MoveQuestionUp" 
+                                           MoveQuestionDown="QuestionType_MoveQuestionDown" 
+                                           Background="Transparent"
+                                           ContextMenu="{StaticResource questionMenu}"
+                                           />
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </DockPanel>
 </UserControl>

@@ -39,7 +39,7 @@
       <HintPath>packages\AquaFlaim.Interface.Authorization.1.0.0-alpha.16\lib\netstandard2.0\AquaFlaim.Interface.Authorization.dll</HintPath>
     </Reference>
     <Reference Include="AquaFlaim.Interface.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\AquaFlaim.Interface.Forms.1.0.0-alpha.3\lib\netstandard2.0\AquaFlaim.Interface.Forms.dll</HintPath>
+      <HintPath>packages\AquaFlaim.Interface.Forms.1.0.0-alpha.4\lib\netstandard2.0\AquaFlaim.Interface.Forms.dll</HintPath>
     </Reference>
     <Reference Include="AquaFlaim.Interface.Log, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\AquaFlaim.Interface.Log.1.0.0-alpha.3\lib\netstandard2.0\AquaFlaim.Interface.Log.dll</HintPath>
@@ -120,6 +120,9 @@
     <Compile Include="Authorization\ViewModel\FindUserVM.cs" />
     <Compile Include="DependencyInjection\ContainerFactory.cs" />
     <Compile Include="DependencyInjection\SupportModule.cs" />
+    <Compile Include="Forms\Controls\QuestionType.xaml.cs">
+      <DependentUpon>QuestionType.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Controls\SectionType.xaml.cs">
       <DependentUpon>SectionType.xaml</DependentUpon>
     </Compile>
@@ -129,6 +132,8 @@
     <Compile Include="Forms\Types.xaml.cs">
       <DependentUpon>Types.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ViewModel\QuestionTypeValidator.cs" />
+    <Compile Include="Forms\ViewModel\QuestionTypeVM.cs" />
     <Compile Include="Forms\ViewModel\SectionTypeValidator.cs" />
     <Compile Include="Forms\ViewModel\TypeLoader.cs" />
     <Compile Include="Forms\ViewModel\SectionTypeVM.cs" />
@@ -166,6 +171,10 @@
     <Page Include="ErrorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Forms\Controls\QuestionType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\Controls\SectionType.xaml">
       <SubType>Designer</SubType>

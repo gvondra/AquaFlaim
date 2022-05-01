@@ -25,6 +25,7 @@
         <ListView ItemsSource="{Binding Types}" MouseDoubleClick="ListView_MouseDoubleClick">
             <ListView.View>
                 <GridView>
+                    <GridViewColumn Header="Form Type Id" DisplayMemberBinding="{Binding FormTypeId}"/>
                     <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}"/>
                 </GridView>
             </ListView.View>

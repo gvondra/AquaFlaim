@@ -27,7 +27,7 @@ namespace AquaFlaim.User.Support.Forms.ViewModel
             }
             foreach (FormSectionType section in formType.Sections)
             {
-                _sections.Add(new SectionTypeVM(section));
+                _sections.Add(new SectionTypeVM(section, this));
             }
             _validators.Add(new TypeValidator(this));
         }

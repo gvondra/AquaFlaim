@@ -83,7 +83,9 @@ namespace AquaFlaim.User.Support.Forms
         {
             try
             {
-                await update;
+                FormType formType = await update;
+                TypeVM = new TypeVM(formType);
+                DataContext = TypeVM;
                 MessageBox.Show(Window.GetWindow(this), "Update Complete", "Save", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
@@ -98,7 +100,7 @@ namespace AquaFlaim.User.Support.Forms
             {
                 FormSectionType sectionType = new FormSectionType() { Title = "New Section" };
                 TypeVM.InnerFormType.Sections.Add(sectionType);
-                TypeVM.Sections.Add(new SectionTypeVM(sectionType));
+                TypeVM.Sections.Add(new SectionTypeVM(sectionType, TypeVM));
             }
             catch (Exception ex)
             {
