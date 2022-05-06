@@ -37,5 +37,19 @@ namespace AquaFlaim.Config.Core
                 lookup = Create(data);
             return lookup;
         }
+
+        public ILookup Create()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ILookup> Get(ISettings settings, Guid id)
+        {
+            Lookup lookup = null;
+            LookupData data = await _dataFactory.Get(new DataSettings(settings), id);
+            if (data != null)
+                lookup = Create(data);
+            return lookup;
+        }
     }
 }

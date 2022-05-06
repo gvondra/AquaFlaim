@@ -9,7 +9,9 @@ namespace AquaFlaim.Config.Framework
 {
     public interface ILookupFactory
     {
+        ILookup Create();
         Task<IEnumerable<string>> GetAllCodes(ISettings settings, bool includePrivate = false);
+        Task<ILookup> Get(ISettings settings, Guid id);
         Task<ILookup> GetByCode(ISettings settings, string code);
     }
 }

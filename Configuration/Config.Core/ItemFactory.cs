@@ -37,5 +37,19 @@ namespace AquaFlaim.Config.Core
                 item = Create(data);
             return item;
         }
+
+        public IItem Create()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IItem> Get(ISettings settings, Guid id)
+        {
+            Item item = null;
+            ItemData data = await _dataFactory.Get(new DataSettings(settings), id);
+            if (data != null)
+                item = Create(data);
+            return item;
+        }
     }
 }
