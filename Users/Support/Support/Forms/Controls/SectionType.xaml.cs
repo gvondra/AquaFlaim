@@ -66,10 +66,10 @@ namespace AquaFlaim.User.Support.Forms.Controls
                     FormQuestionType questionType = new FormQuestionType()
                     {
                         Code = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString(),
-                        Text = "New Question?"
+                        Text = "New Question?",                        
                     };
                     sectionType.InnerSectionType.Questions.Add(questionType);
-                    sectionType.Questions.Add(new QuestionTypeVM(questionType, sectionType));
+                    sectionType.Questions.Add(new QuestionTypeVM(questionType, sectionType) { IsNew = true });
                 }
 
             }

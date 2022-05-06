@@ -132,6 +132,7 @@
     <Compile Include="Forms\Types.xaml.cs">
       <DependentUpon>Types.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ViewModel\QuestionTypeBehavior.cs" />
     <Compile Include="Forms\ViewModel\QuestionTypeValidator.cs" />
     <Compile Include="Forms\ViewModel\QuestionTypeVM.cs" />
     <Compile Include="Forms\ViewModel\SectionTypeValidator.cs" />

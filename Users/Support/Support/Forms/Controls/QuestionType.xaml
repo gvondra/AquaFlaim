@@ -7,7 +7,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <Style TargetType="TextBox">
+        <Style x:Key="FieldLabel" TargetType="TextBlock">
+            <Setter Property="Margin" Value="10,2"/>
+        </Style>
+        <Style x:Key="InputText" TargetType="TextBox">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="true">
                     <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)/ErrorContent}"/>
@@ -25,14 +28,108 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Column="0" Grid.Row="0">Code:</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Code, ValidatesOnDataErrors=True}"/>
+        <TextBlock Grid.Column="0" Grid.Row="0" Style="{StaticResource FieldLabel}">Code:</TextBlock>
+        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Code, ValidatesOnDataErrors=True}" >
+            <TextBox.Style>
+                <Style TargetType="TextBox" BasedOn="{StaticResource InputText}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsNew}" Value="False">
+                            <Setter Property="IsReadOnly" Value="True"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
         <StackPanel Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button ToolTip="Move Up" Padding="5,1" Click="MoveUp_Click">˄</Button>
             <Button ToolTip="Move Down" Padding="5,1" Click="MoveQuestionDown_Click">˅</Button>
         </StackPanel>
-        <TextBlock Grid.Column="0" Grid.Row="1">Text:</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Text, ValidatesOnDataErrors=True}"/>
+        <TextBlock Grid.Column="0" Grid.Row="1" Style="{StaticResource FieldLabel}">Text:</TextBlock>
+        <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Text, ValidatesOnDataErrors=True}" Style="{StaticResource InputText}"/>
+        <TextBlock Grid.Column="2" Grid.Row="1" Style="{StaticResource FieldLabel}">Hidden:</TextBlock>
+        <CheckBox Grid.Column="3" Grid.Row="1" IsChecked="{Binding Hidden}"/>
+        <TextBlock Grid.Column="0" Grid.Row="2" Style="{StaticResource FieldLabel}">Response Type:</TextBlock>
+        <ComboBox Grid.Column="1" Grid.Row="2" 
+                  SelectedValue="{Binding ResponseType}" 
+                  ItemsSource="{Binding ResponseTypes}" 
+                  DisplayMemberPath="Item2" 
+                  SelectedValuePath="Item1" 
+                  HorizontalAlignment="Left"
+                  />
+        <TextBlock Grid.Column="2" Grid.Row="2" Style="{StaticResource FieldLabel}">Required:</TextBlock>
+        <CheckBox Grid.Column="3" Grid.Row="2" IsChecked="{Binding IsRequired}"/>
+        <TextBlock Grid.Column="2" Grid.Row="3">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource FieldLabel}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ResponseValidationExpressionVisible}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+            <TextBlock>Response Validation Expression:</TextBlock>
+        </TextBlock>
+        <TextBox Grid.Column="3" Grid.Row="3" Text="{Binding ResponseValidationExpression, ValidatesOnDataErrors=True}">
+            <TextBox.Style>
+                <Style TargetType="TextBox" BasedOn="{StaticResource InputText}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ResponseValidationExpressionVisible}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <TextBlock Grid.Column="2" Grid.Row="4">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource FieldLabel}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ResponseMaxLengthVisible}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+            <TextBlock>Response Maximum Length:</TextBlock>
+        </TextBlock>
+        <TextBox Grid.Column="3" Grid.Row="4" Text="{Binding ResponseMaxLength, ValidatesOnDataErrors=True}" MaxLength="5" HorizontalAlignment="Left" MinWidth="50">
+            <TextBox.Style>
+                <Style TargetType="TextBox" BasedOn="{StaticResource InputText}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ResponseMaxLengthVisible}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <TextBlock Grid.Column="2" Grid.Row="4">
+            <TextBlock.Style>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource FieldLabel}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ResponseListVisible}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+            <TextBlock>Response Choices:</TextBlock>
+        </TextBlock>
+        <TextBox Grid.Column="3" Grid.Row="4" Text="{Binding ResponseList, ValidatesOnDataErrors=True}"  AcceptsReturn="True">
+            <TextBox.Style>
+                <Style TargetType="TextBox" BasedOn="{StaticResource InputText}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ResponseListVisible}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBox.Style>
+        </TextBox>
     </Grid>
 </UserControl>
