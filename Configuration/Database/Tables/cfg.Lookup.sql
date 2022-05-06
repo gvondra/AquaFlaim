@@ -1,0 +1,14 @@
+﻿CREATE TABLE [cfg].[Lookup]
+(
+	[LookupId] UNIQUEIDENTIFIER NOT NULL,
+	[IsPublic] BIT CONSTRAINT [DF_Lookup_IsPublic] DEFAULT 0 NOT NULL,
+	[Code] VARCHAR(512) NOT NULL,
+	[Data] VARCHAR(MAX) NOT NULL,
+	[CreateTimestamp] DATETIME2(4) CONSTRAINT [DF_Lookup_CreateTimestamp] DEFAULT(SYSUTCDATETIME()) NOT NULL,
+	[UpdateTimestamp] DATETIME2(4) CONSTRAINT [DF_Lookup_UpdateTimestamp] DEFAULT(SYSUTCDATETIME()) NOT NULL,
+	CONSTRAINT [PK_Lookup] PRIMARY KEY CLUSTERED ([LookupId])
+)
+
+GO
+
+CREATE UNIQUE INDEX [IX_Lookup_Code] ON [cfg].[Lookup] ([Code])
