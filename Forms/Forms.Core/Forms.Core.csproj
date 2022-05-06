@@ -1,16 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-	  <ImplicitUsings>disable</ImplicitUsings>
-	  <Nullable>disable</Nullable>
-	  <AssemblyName>AquaFlaim.Forms.Core</AssemblyName>
-	  <RootNamespace>AquaFlaim.Forms.Core</RootNamespace>
-	  <Authors>Greg Vondra</Authors>
-	  <Company />
-	  <Product>Aqua Flaim</Product>
-	  <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<AssemblyName>AquaFlaim.Forms.Core</AssemblyName>
+		<RootNamespace>AquaFlaim.Forms.Core</RootNamespace>
+		<Authors>Greg Vondra</Authors>
+		<Company />
+		<Product>Aqua Flaim</Product>
+		<PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DebugType>none</DebugType>
@@ -23,15 +23,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Autofac" Version="6.3.0" />
-	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Autofac" Version="6.3.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Common\CommonCore\CommonCore.csproj" />
-	  <ProjectReference Include="..\Forms.Data.Framework\Forms.Data.Framework.csproj" />
-	  <ProjectReference Include="..\Forms.Data\Forms.Data.csproj" />
-	  <ProjectReference Include="..\Forms.Framework\Forms.Framework.csproj" />
+		<ProjectReference Include="..\..\Common\CommonCore\CommonCore.csproj" />
+		<ProjectReference Include="..\Forms.Data.Framework\Forms.Data.Framework.csproj" />
+		<ProjectReference Include="..\Forms.Data\Forms.Data.csproj" />
+		<ProjectReference Include="..\Forms.Framework\Forms.Framework.csproj" />
 	</ItemGroup>
 
 </Project>

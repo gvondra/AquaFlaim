@@ -1,16 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-	  <ImplicitUsings>disable</ImplicitUsings>
-	  <Nullable>disable</Nullable>
-	  <AssemblyName>AquaFlaim.Forms.Framework</AssemblyName>
-	  <RootNamespace>AquaFlaim.Forms.Framework</RootNamespace>
-	  <Authors>Greg Vondra</Authors>
-	  <Company />
-	  <Product>Aqua Flaim</Product>
-	  <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<AssemblyName>AquaFlaim.Forms.Framework</AssemblyName>
+		<RootNamespace>AquaFlaim.Forms.Framework</RootNamespace>
+		<Authors>Greg Vondra</Authors>
+		<Company />
+		<Product>Aqua Flaim</Product>
+		<PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DebugType>none</DebugType>
@@ -23,7 +23,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Common\CommonCore\CommonCore.csproj" />
+		<ProjectReference Include="..\..\Common\CommonCore\CommonCore.csproj" />
 	</ItemGroup>
 
 </Project>
