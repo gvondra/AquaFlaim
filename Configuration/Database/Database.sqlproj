@@ -76,6 +76,8 @@
     <Build Include="Stored Procedures\cfg.UpdateLookup.sql" />
     <Build Include="Stored Procedures\cfg.GetLookupByCode.sql" />
     <Build Include="Stored Procedures\cfg.GetAllLookupCodes.sql" />
+    <Build Include="Stored Procedures\cfg.GetItem.sql" />
+    <Build Include="Stored Procedures\cfg.GetLookup.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LocalSqlSchemaCompare.scmp" />

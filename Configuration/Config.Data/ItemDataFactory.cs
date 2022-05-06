@@ -23,6 +23,22 @@ namespace AquaFlaim.Config.Data
 
         private static ItemData Create() => new ItemData();
 
+        public async Task<ItemData> Get(ISqlSettings settings, Guid id)
+        {
+            IDataParameter[] parameters = new IDataParameter[]
+            {
+                DataUtil.CreateParameter(_dbProviderFactory, "id", DbType.Guid, DataUtil.GetParameterValue(id))
+            };
+            return (await _genericDataFactory.GetData(
+                settings,
+                _dbProviderFactory,
+                "[cfg].[GetItem]",
+                Create,
+                DataUtil.AssignDataStateManager,
+                parameters
+                )).FirstOrDefault();
+        }
+
         public async Task<IEnumerable<string>> GetAllCodes(ISqlSettings settings, bool includePrivate)
         {
             List<string> codes = new List<string>();

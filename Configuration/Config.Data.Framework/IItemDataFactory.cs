@@ -12,5 +12,6 @@ namespace AquaFlaim.Config.Data.Framework
     {
         Task<IEnumerable<string>> GetAllCodes(ISqlSettings settings, bool includePrivate);
         Task<ItemData> GetByCode(ISqlSettings settings, string code);
+        Task<ItemData> Get(ISqlSettings settings, Guid id);
     }
 }
