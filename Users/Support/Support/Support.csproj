@@ -38,6 +38,9 @@
     <Reference Include="AquaFlaim.Interface.Authorization, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\AquaFlaim.Interface.Authorization.1.0.0-alpha.16\lib\netstandard2.0\AquaFlaim.Interface.Authorization.dll</HintPath>
     </Reference>
+    <Reference Include="AquaFlaim.Interface.Configuration, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\AquaFlaim.Interface.Configuration.1.0.0-alpha.2\lib\netstandard2.0\AquaFlaim.Interface.Configuration.dll</HintPath>
+    </Reference>
     <Reference Include="AquaFlaim.Interface.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\AquaFlaim.Interface.Forms.1.0.0-alpha.4\lib\netstandard2.0\AquaFlaim.Interface.Forms.dll</HintPath>
     </Reference>
@@ -148,6 +151,7 @@
     <Compile Include="Logging\ViewModel\MetricsVM.cs" />
     <Compile Include="Logging\ViewModel\MetricVM.cs" />
     <Compile Include="Settings\AuthorizationSettings.cs" />
+    <Compile Include="Settings\ConfigurationSettings.cs" />
     <Compile Include="Settings\FormsSettings.cs" />
     <Compile Include="Settings\ISettingsFactory.cs" />
     <Compile Include="Settings\LogSettings.cs" />

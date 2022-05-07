@@ -66,5 +66,23 @@ namespace AquaFlaim.User.Support
                 Token = token
             };
         }
+
+        public Interface.Configuration.ISettings CreateConfiguration()
+        {
+            if (string.IsNullOrEmpty(AccessToken.Token))
+                throw new ArgumentNullException("Access Token");
+            return CreateConfiguration(AccessToken.Token);
+        }
+
+        public Interface.Configuration.ISettings CreateConfiguration(string token)
+        {
+            if (string.IsNullOrEmpty(token))
+                throw new ArgumentNullException(nameof(token));
+            return new ConfigurationSettings()
+            {
+                BaseAddress = Settings.ConfigurationApiBaseAddress,
+                Token = token
+            };
+        }
     }
 }

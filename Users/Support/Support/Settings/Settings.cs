@@ -12,5 +12,6 @@ namespace AquaFlaim.User.Support
         public static string AuthorizationApiBaseAddress => ConfigurationManager.AppSettings["AuthorizationApiBaseAddress"];
         public static string LogApiBaseAddress => ConfigurationManager.AppSettings["LogApiBaseAddress"];
         public static string FormsApiBaseAddress => ConfigurationManager.AppSettings["FormsApiBaseAddress"];
+        public static string ConfigurationApiBaseAddress => ConfigurationManager.AppSettings["ConfigurationApiBaseAddress"];
     }
 }

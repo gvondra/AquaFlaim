@@ -14,5 +14,7 @@ namespace AquaFlaim.User.Support
         AquaFlaim.Interface.Log.ISettings CreateLog(string token);
         AquaFlaim.Interface.Forms.ISettings CreateForms();
         AquaFlaim.Interface.Forms.ISettings CreateForms(string token);
+        AquaFlaim.Interface.Configuration.ISettings CreateConfiguration();
+        AquaFlaim.Interface.Configuration.ISettings CreateConfiguration(string token);
     }
 }
