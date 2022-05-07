@@ -35,6 +35,7 @@ namespace ConfigurationAPI.Controllers
         [Authorize(Constants.POLICY_CONFIG_READ)]
         [HttpGet("/api/ItemCode")]
         [ProducesResponseType(typeof(string[]), 200)]
+        [ResponseCache(Duration = 1200, Location = ResponseCacheLocation.Client)]
         public async Task<IActionResult> GetCodes()
         {
             DateTime start = DateTime.UtcNow;
@@ -57,9 +58,18 @@ namespace ConfigurationAPI.Controllers
         }
 
         [Authorize(Constants.POLICY_CONFIG_READ)]
+        [HttpGet("/api/r/[controller]/{code}")]
+        [ProducesResponseType(typeof(Item), 200)]
+        [ResponseCache(Duration = 1200, Location = ResponseCacheLocation.Client)]
+        public async Task<IActionResult> GetRestricted(string code) => await Get(code, true);
+
         [HttpGet("{code}")]
         [ProducesResponseType(typeof(Item), 200)]
-        public async Task<IActionResult> Get(string code)
+        [ResponseCache(Duration = 1200, Location = ResponseCacheLocation.Client)]
+        public async Task<IActionResult> Get(string code) => await Get(code, false);
+
+        [NonAction]
+        private async Task<IActionResult> Get(string code, bool includePrivate = false)
         {
             DateTime start = DateTime.UtcNow;
             IActionResult result = null;
@@ -71,7 +81,7 @@ namespace ConfigurationAPI.Controllers
                 {
                     ISettings settings = _settingsFactory.CreateCore(_settings.Value);
                     IItem innerItem = await _itemFactory.GetByCode(settings, code);
-                    if (innerItem == null)
+                    if (innerItem == null || !(innerItem.IsPublic || includePrivate))
                         result = NotFound();
                     else
                     {

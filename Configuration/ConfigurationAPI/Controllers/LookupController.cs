@@ -36,6 +36,7 @@ namespace ConfigurationAPI.Controllers
         [Authorize(Constants.POLICY_CONFIG_READ)]
         [HttpGet("/api/LookupCode")]
         [ProducesResponseType(typeof(string[]), 200)]
+        [ResponseCache(Duration = 1200, Location = ResponseCacheLocation.Client)]
         public async Task<IActionResult> GetCodes()
         {
             DateTime start = DateTime.UtcNow;
@@ -58,9 +59,18 @@ namespace ConfigurationAPI.Controllers
         }
 
         [Authorize(Constants.POLICY_CONFIG_READ)]
-        [HttpGet("{code}")]
+        [HttpGet("/api/r/[controller]/{code}")]
         [ProducesResponseType(typeof(Lookup[]), 200)]
-        public async Task<IActionResult> Get(string code)
+        [ResponseCache(Duration = 1200, Location = ResponseCacheLocation.Client)]
+        public async Task<IActionResult> GetRestricted(string code) => await Get(code, true);
+
+        [HttpGet("{code}")]
+        [ProducesResponseType(typeof(Item), 200)]
+        [ResponseCache(Duration = 1200, Location = ResponseCacheLocation.Client)]
+        public async Task<IActionResult> Get(string code) => await Get(code, false);
+
+        [NonAction]
+        private async Task<IActionResult> Get(string code, bool includePrivate)
         {
             DateTime start = DateTime.UtcNow;
             IActionResult result = null;
@@ -72,7 +82,7 @@ namespace ConfigurationAPI.Controllers
                 {
                     ISettings settings = _settingsFactory.CreateCore(_settings.Value);
                     ILookup innerLookup = await _lookupFactory.GetByCode(settings, code);
-                    if (innerLookup == null)
+                    if (innerLookup == null || !(innerLookup.IsPublic || includePrivate))
                         result = NotFound();
                     else
                     {
