@@ -38,10 +38,7 @@ namespace AquaFlaim.Config.Core
             return lookup;
         }
 
-        public ILookup Create()
-        {
-            throw new NotImplementedException();
-        }
+        public ILookup Create() => Create(new LookupData() { IsPublic = false });
 
         public async Task<ILookup> Get(ISettings settings, Guid id)
         {

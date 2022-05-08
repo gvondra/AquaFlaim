@@ -38,10 +38,7 @@ namespace AquaFlaim.Config.Core
             return item;
         }
 
-        public IItem Create()
-        {
-            throw new NotImplementedException();
-        }
+        public IItem Create() => Create(new ItemData() { IsPublic = false });
 
         public async Task<IItem> Get(ISettings settings, Guid id)
         {
