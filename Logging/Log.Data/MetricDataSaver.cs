@@ -35,11 +35,11 @@ namespace AquaFlaim.Log.Data
                     id.Direction = ParameterDirection.Output;
                     command.Parameters.Add(id);
 
-                    DataUtil.AddParameter(_providerFactory, command.Parameters, "eventCode", DbType.AnsiString, metric.EventCode);
-                    DataUtil.AddParameter(_providerFactory, command.Parameters, "magnitude", DbType.Double, metric.Magnitude);
-                    DataUtil.AddParameter(_providerFactory, command.Parameters, "status", DbType.String, metric.Status);
-                    DataUtil.AddParameter(_providerFactory, command.Parameters, "data", DbType.String, metric.Data);
-                    DataUtil.AddParameter(_providerFactory, command.Parameters, "timestamp", DbType.DateTime2, metric.Timestamp);
+                    DataUtil.AddParameter(_providerFactory, command.Parameters, "eventCode", DbType.AnsiString, DataUtil.GetParameterValue(metric.EventCode));
+                    DataUtil.AddParameter(_providerFactory, command.Parameters, "magnitude", DbType.Double, DataUtil.GetParameterValue(metric.Magnitude));
+                    DataUtil.AddParameter(_providerFactory, command.Parameters, "status", DbType.String, DataUtil.GetParameterValue(metric.Status));
+                    DataUtil.AddParameter(_providerFactory, command.Parameters, "data", DbType.String, DataUtil.GetParameterValue(metric.Data));
+                    DataUtil.AddParameter(_providerFactory, command.Parameters, "timestamp", DbType.DateTime2, DataUtil.GetParameterValue(metric.Timestamp));
 
                     await command.ExecuteNonQueryAsync();
                     metric.MetricId = (Guid)id.Value;
