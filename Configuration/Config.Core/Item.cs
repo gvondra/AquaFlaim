@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,8 +36,8 @@ namespace AquaFlaim.Config.Core
         public string Code { get => _data.Code.ToLower(); set => _data.Code = value.ToLower(); }
         public dynamic Data 
         { 
-            get => JsonConvert.DeserializeObject(_data.Data, serializeSettings); 
-            set => _data.Data = JsonConvert.SerializeObject(value, serializeSettings); 
+            get => !string.IsNullOrEmpty(_data.Data) ? JsonConvert.DeserializeObject(_data.Data, serializeSettings) : new ExpandoObject(); 
+            set => _data.Data = value != null ? JsonConvert.SerializeObject(value, serializeSettings) : string.Empty; 
         }
 
         public DateTime CreateTimestamp => _data.CreateTimestamp;

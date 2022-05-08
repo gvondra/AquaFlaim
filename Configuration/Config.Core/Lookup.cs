@@ -36,8 +36,8 @@ namespace AquaFlaim.Config.Core
 
         public Dictionary<string, string> Data 
         { 
-            get => JsonConvert.DeserializeObject<Dictionary<string, string>>(_data.Data, serializeSettings); 
-            set => _data.Data = JsonConvert.SerializeObject(value, serializeSettings); 
+            get => !string.IsNullOrEmpty(_data.Data) ? JsonConvert.DeserializeObject<Dictionary<string, string>>(_data.Data, serializeSettings) : new Dictionary<string, string>(); 
+            set => _data.Data = value != null ? JsonConvert.SerializeObject(value, serializeSettings) : string.Empty; 
         }
 
         public DateTime CreateTimestamp => _data.CreateTimestamp;
