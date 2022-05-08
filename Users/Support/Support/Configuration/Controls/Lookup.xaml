@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="AquaFlaim.User.Support.Configuration.Controls.Lookup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AquaFlaim.User.Support.Configuration.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="FieldLabel" TargetType="TextBlock">
+            <Setter Property="Margin" Value="10,2"/>
+        </Style>
+        <Style x:Key="InputText" TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)/ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="0" Grid.Row="0" Style="{StaticResource FieldLabel}">Code:</TextBlock>
+        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Code, ValidatesOnDataErrors=True}" Style="{StaticResource InputText}"/>
+        <TextBlock Grid.Column="2" Grid.Row="0" Style="{StaticResource FieldLabel}">Is Public:</TextBlock>
+        <CheckBox Grid.Column="3" Grid.Row="0" IsChecked="{Binding IsPublic}"/>
+        <Button Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Padding="5,0" Click="Save_Click">Save</Button>
+    </Grid>
+</UserControl>

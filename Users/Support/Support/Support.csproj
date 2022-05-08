@@ -39,7 +39,7 @@
       <HintPath>packages\AquaFlaim.Interface.Authorization.1.0.0-alpha.16\lib\netstandard2.0\AquaFlaim.Interface.Authorization.dll</HintPath>
     </Reference>
     <Reference Include="AquaFlaim.Interface.Configuration, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\AquaFlaim.Interface.Configuration.1.0.0-alpha.2\lib\netstandard2.0\AquaFlaim.Interface.Configuration.dll</HintPath>
+      <HintPath>packages\AquaFlaim.Interface.Configuration.1.0.0-alpha.6\lib\netstandard2.0\AquaFlaim.Interface.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="AquaFlaim.Interface.Forms, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\AquaFlaim.Interface.Forms.1.0.0-alpha.4\lib\netstandard2.0\AquaFlaim.Interface.Forms.dll</HintPath>
@@ -121,6 +121,19 @@
     <Compile Include="Authorization\ViewModel\RoleValidator.cs" />
     <Compile Include="Authorization\ViewModel\RoleVM.cs" />
     <Compile Include="Authorization\ViewModel\FindUserVM.cs" />
+    <Compile Include="Configuration\Controls\Lookup.xaml.cs">
+      <DependentUpon>Lookup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Configuration\Items.xaml.cs">
+      <DependentUpon>Items.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Configuration\Lookups.xaml.cs">
+      <DependentUpon>Lookups.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Configuration\ViewModel\LookupsBehavior.cs" />
+    <Compile Include="Configuration\ViewModel\LookupsVM.cs" />
+    <Compile Include="Configuration\ViewModel\LookupValidator.cs" />
+    <Compile Include="Configuration\ViewModel\LookupVM.cs" />
     <Compile Include="DependencyInjection\ContainerFactory.cs" />
     <Compile Include="DependencyInjection\SupportModule.cs" />
     <Compile Include="Forms\Controls\QuestionType.xaml.cs">
@@ -166,6 +179,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Authorization\User.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Configuration\Controls\Lookup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Configuration\Items.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Configuration\Lookups.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

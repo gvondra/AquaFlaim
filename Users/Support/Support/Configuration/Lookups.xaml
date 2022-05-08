@@ -1,0 +1,35 @@
+﻿<Page x:Class="AquaFlaim.User.Support.Configuration.Lookups"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:AquaFlaim.User.Support.Configuration"
+      xmlns:ctrl="clr-namespace:AquaFlaim.User.Support.Configuration.Controls"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Configuration Lookups" Style="{StaticResource DefaultPageStyle}">
+
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Style="{StaticResource PageTitle}">Configuration Lookup</TextBlock>
+        </Grid>
+        <ListView x:Name="CodesList" DockPanel.Dock="Left" ItemsSource="{Binding Codes}" SelectionChanged="ListView_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Lookup Code" DisplayMemberBinding="{Binding }"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel DockPanel.Dock="Right">
+            <TextBlock Margin="10,0">
+                <Hyperlink Click="Add_Click">Add</Hyperlink>
+            </TextBlock>
+        </StackPanel>
+        <ScrollViewer>
+            <StackPanel x:Name="LookupPannel" />
+        </ScrollViewer>
+    </DockPanel>
+</Page>
