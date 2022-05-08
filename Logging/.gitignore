@@ -362,3 +362,5 @@ MigrationBackup/
 FodyWeavers.xsd
 
 !Interface.Log/
+
+launchSettings.json
