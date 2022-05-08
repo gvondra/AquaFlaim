@@ -51,6 +51,8 @@ namespace AquaFlaim.CommonAPI
                     });
                 AddPolicy(o, Constants.POLICY_CLIENT_EDIT, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"]);
                 AddPolicy(o, Constants.POLICY_CLIENT_READ, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"]);
+                AddPolicy(o, Constants.POLICY_CONFIG_READ, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"], _additionalConfigReadPolicies);
+                AddPolicy(o, Constants.POLICY_CONFIG_EDIT, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"]);
                 AddPolicy(o, Constants.POLICY_LOG_READ, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"], _additionalLogWritePolicies);
                 AddPolicy(o, Constants.POLICY_LOG_WRITE, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"], _additionalLogWritePolicies);
                 AddPolicy(o, Constants.POLICY_ROLE_EDIT, Constants.AUTH_SCHEMA_AQUA_FLAIM, configuration["InternalIdIssuer"]);
@@ -62,10 +64,24 @@ namespace AquaFlaim.CommonAPI
             return services;
         }
 
+        // tokens including any of the listed policies also get log read and log write access
         private static string[] _additionalLogWritePolicies = new string[]
         {
             Constants.POLICY_CLIENT_EDIT,
             Constants.POLICY_CLIENT_READ,
+            Constants.POLICY_ROLE_EDIT,
+            Constants.POLICY_FORM_TYPE_READ,
+            Constants.POLICY_FORM_TYPE_EDIT,
+            Constants.POLICY_USER_EDIT,
+            Constants.POLICY_USER_READ
+        };
+
+        // tokens incloding any of the listed policies also get config read access
+        private static string[] _additionalConfigReadPolicies = new string[]
+        {
+            Constants.POLICY_CLIENT_EDIT,
+            Constants.POLICY_CLIENT_READ,
+            Constants.POLICY_CONFIG_EDIT,
             Constants.POLICY_ROLE_EDIT,
             Constants.POLICY_FORM_TYPE_READ,
             Constants.POLICY_FORM_TYPE_EDIT,
