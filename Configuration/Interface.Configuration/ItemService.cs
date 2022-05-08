@@ -21,11 +21,11 @@ namespace AquaFlaim.Interface.Configuration
             _restUtil = restUtil;
         }
 
-        public async Task<Item> Create(ISettings settings, Item lookup)
+        public async Task<Item> Create(ISettings settings, Item item)
         {
             UriBuilder builder = new UriBuilder(settings.BaseAddress);
             builder.Path = _restUtil.AppendPath(builder.Path, "api", "Item");
-            IRequest request = _service.CreateRequest(builder.Uri, HttpMethod.Post, lookup);
+            IRequest request = _service.CreateRequest(builder.Uri, HttpMethod.Post, item);
             request.AddJwtAuthorizationToken(settings.GetToken);
             IResponse<Item> response = await _service.Send<Item>(request);
             _restUtil.CheckSuccess(response);
@@ -35,9 +35,9 @@ namespace AquaFlaim.Interface.Configuration
         public async Task<Item> GetPublicByCode(ISettings settings, string code)
         {
             UriBuilder builder = new UriBuilder(settings.BaseAddress);
-            builder.Path = _restUtil.AppendPath(builder.Path, "api", "Item");
+            builder.Path = _restUtil.AppendPath(builder.Path, "api", "Item", code);
             IRequest request = _service.CreateRequest(builder.Uri, HttpMethod.Get);
-            IResponse<Item> response = await _service.Send<Item>(request);
+            IResponse<Item> response = await _service.Send<Item>(request);            
             _restUtil.CheckSuccess(response);
             return response.Value;
         }
@@ -45,7 +45,7 @@ namespace AquaFlaim.Interface.Configuration
         public async Task<Item> GetByCode(ISettings settings, string code)
         {
             UriBuilder builder = new UriBuilder(settings.BaseAddress);
-            builder.Path = _restUtil.AppendPath(builder.Path, "api", "Item");
+            builder.Path = _restUtil.AppendPath(builder.Path, "api", "r", "Item", code);
             IRequest request = _service.CreateRequest(builder.Uri, HttpMethod.Get);
             request.AddJwtAuthorizationToken(settings.GetToken);
             IResponse<Item> response = await _service.Send<Item>(request);
@@ -64,11 +64,11 @@ namespace AquaFlaim.Interface.Configuration
             return response.Value;
         }
 
-        public async Task<Item> Update(ISettings settings, Item lookup)
+        public async Task<Item> Update(ISettings settings, Item item)
         {
             UriBuilder builder = new UriBuilder(settings.BaseAddress);
-            builder.Path = _restUtil.AppendPath(builder.Path, "api", "Item");
-            IRequest request = _service.CreateRequest(builder.Uri, HttpMethod.Put, lookup);
+            builder.Path = _restUtil.AppendPath(builder.Path, "api", "Item", item.ItemId.ToString("N"));
+            IRequest request = _service.CreateRequest(builder.Uri, HttpMethod.Put, item);
             request.AddJwtAuthorizationToken(settings.GetToken);
             IResponse<Item> response = await _service.Send<Item>(request);
             _restUtil.CheckSuccess(response);

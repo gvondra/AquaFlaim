@@ -12,7 +12,8 @@ namespace AquaFlaim.Interface.Configuration
         Task<IEnumerable<string>> GetCodes(ISettings settings);
         Task<Item> GetPublicByCode(ISettings settings, string code);
         Task<Item> GetByCode(ISettings settings, string code);
-        Task<Item> Create(ISettings settings, Item lookup);
-        Task<Item> Update(ISettings settings, Item lookup);
+        Task<Item> Create(ISettings settings, Item item);
+        Task<Item> Update(ISettings settings, Item item
+            );
     }
 }

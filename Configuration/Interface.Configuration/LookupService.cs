@@ -35,7 +35,7 @@ namespace AquaFlaim.Interface.Configuration
         public async Task<Lookup> GetPublicByCode(ISettings settings, string code)
         {
             UriBuilder builder = new UriBuilder(settings.BaseAddress);
-            builder.Path = _restUtil.AppendPath(builder.Path, "api", "Lookup");
+            builder.Path = _restUtil.AppendPath(builder.Path, "api", "Lookup", code);
             IRequest request = _service.CreateRequest(builder.Uri, HttpMethod.Get);
             IResponse<Lookup> response = await _service.Send<Lookup>(request);
             _restUtil.CheckSuccess(response);
@@ -45,7 +45,7 @@ namespace AquaFlaim.Interface.Configuration
         public async Task<Lookup> GetByCode(ISettings settings, string code)
         {
             UriBuilder builder = new UriBuilder(settings.BaseAddress);
-            builder.Path = _restUtil.AppendPath(builder.Path, "api", "Lookup");
+            builder.Path = _restUtil.AppendPath(builder.Path, "api", "r", "Lookup", code);
             IRequest request = _service.CreateRequest(builder.Uri, HttpMethod.Get);
             request.AddJwtAuthorizationToken(settings.GetToken);
             IResponse<Lookup> response = await _service.Send<Lookup>(request);
@@ -67,7 +67,7 @@ namespace AquaFlaim.Interface.Configuration
         public async Task<Lookup> Update(ISettings settings, Lookup lookup)
         {
             UriBuilder builder = new UriBuilder(settings.BaseAddress);
-            builder.Path = _restUtil.AppendPath(builder.Path, "api", "Lookup");
+            builder.Path = _restUtil.AppendPath(builder.Path, "api", "Lookup", lookup.LookupId.ToString("N"));
             IRequest request = _service.CreateRequest(builder.Uri, HttpMethod.Put, lookup);
             request.AddJwtAuthorizationToken(settings.GetToken);
             IResponse<Lookup> response = await _service.Send<Lookup>(request);
