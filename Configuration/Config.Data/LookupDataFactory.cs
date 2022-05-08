@@ -13,10 +13,10 @@ namespace AquaFlaim.Config.Data
 {
     public class LookupDataFactory : ILookupDataFactory
     {
-        private readonly IDbProviderFactory _dbProviderFactory;
+        private readonly ISqlDbProviderFactory _dbProviderFactory;
         private readonly GenericDataFactory<LookupData> _genericDataFactory = new GenericDataFactory<LookupData>();
 
-        public LookupDataFactory(IDbProviderFactory providerFactory)
+        public LookupDataFactory(ISqlDbProviderFactory providerFactory)
         {
             _dbProviderFactory = providerFactory;
         }

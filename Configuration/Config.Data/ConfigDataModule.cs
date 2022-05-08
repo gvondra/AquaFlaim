@@ -14,7 +14,7 @@ namespace AquaFlaim.Config.Data
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
-            builder.RegisterType<SqlClientProviderFactory>().As<SqlClientProviderFactory>();
+            builder.RegisterType<SqlClientProviderFactory>().As<ISqlDbProviderFactory>();
             builder.RegisterType<ItemDataFactory>().As<IItemDataFactory>();
             builder.RegisterType<ItemDataSaver>().As<IItemDataSaver>();
             builder.RegisterType<LookupDataFactory>().As<ILookupDataFactory>();

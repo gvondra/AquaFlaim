@@ -13,10 +13,10 @@ namespace AquaFlaim.Config.Data
 {
     public class ItemDataFactory : IItemDataFactory
     {
-        private readonly IDbProviderFactory _dbProviderFactory;
+        private readonly ISqlDbProviderFactory _dbProviderFactory;
         private readonly GenericDataFactory<ItemData> _genericDataFactory = new GenericDataFactory<ItemData>();
 
-        public ItemDataFactory(IDbProviderFactory providerFactory)
+        public ItemDataFactory(ISqlDbProviderFactory providerFactory)
         {
             _dbProviderFactory = providerFactory;
         }
